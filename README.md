@@ -27,13 +27,10 @@ The client is seeking a solution that transforms a repetitive, error-prone manua
 2. **Bulk Data Processing:**  
    - Enable simultaneous processing of multiple CSV files to efficiently handle large volumes of data.
 
-3. **Edge Case Flagging:**  
-   - Automatically flag ambiguous or uncertain utterances for human review to maintain high accuracy.
-
-4. **Frequency Summary Report:**  
+3. **Frequency Summary Report:**  
    - Generate summary reports that provide frequency counts for each communication code across the dataset.
 
-5. **Offline Operation:**  
+4. **Offline Operation:**  
    - Ensure the application functions entirely offline, keeping all sensitive data secure and eliminating dependency on external services.
 
 
