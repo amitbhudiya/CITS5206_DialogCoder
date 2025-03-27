@@ -1,4 +1,4 @@
-# CITS5206_SubmarineTrans
+# CITS5206_DialogCoder
 
 ## Problem Statement: What Are We Building and Why?
 
