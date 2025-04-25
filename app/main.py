@@ -9,7 +9,9 @@ st.set_page_config(page_title="Transcript Coder", layout="wide")
 # Sidebar setup: acts as the main navigation component
 # Allows users to switch between core functional pages
 st.sidebar.title("Transcript Coder")
-page = st.sidebar.selectbox("Navigate to", ["Home", "Upload", "Dictionary", "Reports"])
+page = st.sidebar.selectbox(
+    "Navigate to", ["Home", "Upload", "Dictionary", "Reports"]
+)
 
 # Display the page title at the top of the main view
 st.title("Transcript Coder")
