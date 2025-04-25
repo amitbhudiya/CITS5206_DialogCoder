@@ -1,2 +1,2 @@
-flake8 @ file:///Users/cbousseau/work/recipes/ci_py311/flake8_1677931981927/work
-streamlit @ file:///home/conda/feedstock_root/build_artifacts/streamlit_1743609969575/work
+streamlit
+flake8
