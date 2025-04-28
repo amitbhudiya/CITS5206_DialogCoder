@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import logging
-from src.classifier import classify_sentence, get_b5t_and_subcategories
+from classifier import classify_sentence, get_b5t_and_subcategories
 from typing import Union, List
 
 # Setup logging
@@ -20,7 +20,7 @@ def read_csv(file_path: str) -> pd.DataFrame:
     return df
 
 def get_text_column(df):
-    # 支持常见的text列名
+    # Support common 'text' column names
     for col in df.columns:
         if col.strip().lower() == 'text':
             return col

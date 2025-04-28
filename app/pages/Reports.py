@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(page_title="Reports and Analysis", layout="wide")
 
 st.title("📊 Reports and Analysis")
 
