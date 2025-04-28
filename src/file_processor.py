@@ -17,17 +17,23 @@ def read_csv(file_path: str) -> pd.DataFrame:
     except Exception as e:
         raise Exception(f"Failed to read CSV {file_path}: {str(e)}")
     
-    if 'text' not in df.columns:
-        raise ValueError("CSV must contain a 'text' column")
     return df
+
+def get_text_column(df):
+    # 支持常见的text列名
+    for col in df.columns:
+        if col.strip().lower() == 'text':
+            return col
+    raise ValueError("CSV must contain a 'text' column (case-insensitive)")
 
 # Process uploaded single CSV file
 def process_single_file(input_file: str, output_file: str):
     """Process a single CSV file."""
     df = read_csv(input_file)
+    text_col = get_text_column(df)
 
     results = []
-    for text in df['text']:
+    for text in df[text_col]:
         if pd.isna(text):
             continue
         categories = classify_sentence(str(text).strip())
