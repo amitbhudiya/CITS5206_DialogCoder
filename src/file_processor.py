@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import logging
-from classifier import classify_sentence, get_b5t_and_subcategories
+from src.classifier import classify_sentence, get_b5t_and_subcategories
 from typing import Union, List
 
 # Setup logging
