@@ -36,21 +36,21 @@ with st.container():
             try:
                 df = pd.read_csv(file)
                 st.dataframe(df.head(), use_container_width=True, hide_index=True)
-                # 保存上传文件到临时目录
+                # Save uploaded file to temporary directory
                 temp_input = tempfile.NamedTemporaryFile(delete=False, suffix='.csv')
                 df.to_csv(temp_input.name, index=False)
                 temp_input_paths.append(temp_input.name)
-                # 预生成输出文件路径
+                # Pre-generate output file path
                 temp_output = tempfile.NamedTemporaryFile(delete=False, suffix='.csv')
                 temp_output_paths.append(temp_output.name)
             except Exception as e:
                 st.error(f"❌ Preview failed: {e}")
-        # 处理并生成可下载文件
+        # Process and generate downloadable files
         if len(temp_input_paths) == 1:
             process_single_file(temp_input_paths[0], temp_output_paths[0])
         elif len(temp_input_paths) > 1:
             process_uploaded_csv(temp_input_paths, temp_output_paths)
-        # 下载按钮和结果预览
+        # Download button and result preview
         for idx, file in enumerate(uploaded_files):
             with open(temp_output_paths[idx], "rb") as f:
                 st.download_button(
@@ -59,7 +59,7 @@ with st.container():
                     file_name=f"processed_{file.name}",
                     mime="text/csv"
                 )
-            # 结果预览（显示更多按钮）
+            # Result preview (Show more button)
             try:
                 result_df = pd.read_csv(temp_output_paths[idx])
                 show_rows_key = f"show_rows_{idx}"
@@ -73,7 +73,7 @@ with st.container():
                         try:
                             st.experimental_rerun()
                         except AttributeError:
-                            pass  # 低版本兼容，不报错但不会自动刷新
+                            pass  # Low version compatibility, no error but will not auto refresh
             except Exception as e:
                 st.error(f"❌ Result preview failed: {e}")
     else:
