@@ -4,6 +4,13 @@ import pandas as pd
 import tempfile
 import os
 import sys
+
+# Sidebar navigation
+st.sidebar.page_link("Home.py", label="🏠 Home")
+st.sidebar.page_link("pages/Dictionary.py", label="📚 Dictionary")
+st.sidebar.page_link("pages/Upload.py", label="📤 Upload")
+st.sidebar.page_link("pages/Reports.py", label="📊 Reports")
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
 from file_processor import process_single_file, process_uploaded_csv
 
