@@ -1,0 +1,19 @@
+# Python venv
+venv/
+__pycache__/
+*.pyc
+
+# Editor/IDE stuff
+.vscode/
+.idea/
+.DS_Store
+
+# Flask cache
+instance/
+*.db
+*.sqlite3
+
+# OS/Temp files
+*.log
+*.tmp
+*.swp
