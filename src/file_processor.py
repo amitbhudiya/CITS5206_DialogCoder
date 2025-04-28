@@ -1,48 +1,30 @@
 import pandas as pd
 import os
+import logging
 from classifier import classify_sentence, get_b5t_and_subcategories
 from typing import Union, List
 
-# Read CSV file
-def read_csv(file_path):
-    df = pd.read_csv(file_path)
+# Setup logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Read CSV file and check for 'text' column
+def read_csv(file_path: str) -> pd.DataFrame:
+    """Read a CSV file into a DataFrame."""
+    try:
+        df = pd.read_csv(file_path)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"File not found: {file_path}")
+    except Exception as e:
+        raise Exception(f"Failed to read CSV {file_path}: {str(e)}")
+    
+    if 'text' not in df.columns:
+        raise ValueError("CSV must contain a 'text' column")
     return df
 
-# Process uploaded CSV file(s) or folder
-
-def process_uploaded_csv(input_path: Union[str, List[str]], output_path: Union[str, List[str]]):
-    """
-    Supports three usages:
-    1. Single file: input_path is a file path, output_path is an output file path
-    2. Multiple files: input_path is a list of file paths, output_path is a list of output file paths
-    3. Folder: input_path is a folder path, output_path is an output folder path
-    """
-    if isinstance(input_path, list):
-        # Batch processing for multiple files
-        if not isinstance(output_path, list) or len(input_path) != len(output_path):
-            raise Exception("When input_path is a list, output_path must be a list of the same length.")
-        for in_file, out_file in zip(input_path, output_path):
-            process_uploaded_csv(in_file, out_file)
-        return
-    
-    if os.path.isdir(input_path):
-        # Batch processing for folder
-        if not os.path.isdir(output_path):
-            raise Exception("When input_path is a folder, output_path must be a folder.")
-        for file in os.listdir(input_path):
-            if file.endswith('.csv'):
-                in_file = os.path.join(input_path, file)
-                out_file = os.path.join(output_path, file)
-                process_uploaded_csv(in_file, out_file)
-        return
-
-    # Single file processing
-    try:
-        df = pd.read_csv(input_path)
-    except FileNotFoundError:
-        raise Exception(f"File not found: {input_path}")
-    if 'text' not in df.columns:
-        raise Exception("CSV must contain 'text' column")
+# Process uploaded single CSV file
+def process_single_file(input_file: str, output_file: str):
+    """Process a single CSV file."""
+    df = read_csv(input_file)
 
     results = []
     for text in df['text']:
@@ -58,5 +40,27 @@ def process_uploaded_csv(input_path: Union[str, List[str]], output_path: Union[s
         })
 
     output_df = pd.DataFrame(results)
-    output_df.to_csv(output_path, index=False)
-    print(f"Processed {len(results)} rows. Output saved to {output_path}")
+    output_df.to_csv(output_file, index=False)
+    logging.info(f"Processed {len(results)} rows from {input_file}. Output saved to {output_file}")
+
+# Process uploaded CSV files or folders
+def process_uploaded_csv(input_path: Union[str, List[str]], output_path: Union[str, List[str]]):
+    if isinstance(input_path, list):
+        if not isinstance(output_path, list) or len(input_path) != len(output_path):
+            raise ValueError("When input_path is a list, output_path must be a list of the same length.")
+        for in_file, out_file in zip(input_path, output_path):
+            process_single_file(in_file, out_file)
+        return
+
+    if os.path.isdir(input_path):
+        if not os.path.isdir(output_path):
+            raise ValueError("When input_path is a folder, output_path must be a folder.")
+        for file in os.listdir(input_path):
+            if file.endswith('.csv'):
+                in_file = os.path.join(input_path, file)
+                out_file = os.path.join(output_path, file)
+                process_single_file(in_file, out_file)
+        return
+
+    # Single file case
+    process_single_file(input_path, output_path)
