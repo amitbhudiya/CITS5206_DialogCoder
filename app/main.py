@@ -1,32 +1,27 @@
-# app/main.py
-
 import streamlit as st
 
-# Configure the base layout of the Streamlit app
-# Sets page title and enables full-width layout
+# Setup page config
 st.set_page_config(page_title="Transcript Coder", layout="wide")
 
-# Sidebar setup: acts as the main navigation component
-# Allows users to switch between core functional pages
-st.sidebar.title("Transcript Coder")
-page = st.sidebar.selectbox("Navigate to", ["Home", "Upload", "Dictionary", "Reports"])
+# --- Navigation Bar (Tabs) ---
+tab_home, tab_upload, tab_dictionary, tab_reports = st.tabs(["🏠 Home", "📄 Upload", "📚 Dictionary", "📊 Reports"])
 
-# Display the page title at the top of the main view
-st.title("Transcript Coder")
+# --- Home Tab ---
+with tab_home:
+    st.title("🏠 Home")
+    st.write("Welcome to the Transcript Coder App.")
 
-# Route logic — loads corresponding page content based on sidebar selection
-# Each condition will later be replaced by a modular subcomponent or script
-if page == "Home":
-    st.write("Welcome to the Transcript Coder!")
+# --- Upload Tab ---
+with tab_upload:
+    st.title("📄 Upload")
+    st.write("Upload your transcript files here.")
 
-elif page == "Upload":
-    # TODO: Implement transcript file upload functionality
-    st.write("Upload your transcript file here.")
+# --- Dictionary Tab ---
+with tab_dictionary:
+    st.title("📚 Dictionary")
+    st.write("Manage your coding dictionary here.")
 
-elif page == "Dictionary":
-    # TODO: Integrate dictionary management interface (import, edit, validate)
-    st.write("Manage your coding dictionary.")
-
-elif page == "Reports":
-    # TODO: Add visualisations and exportable report generation
-    st.write("View reports and analysis.")
+# --- Reports Tab ---
+with tab_reports:
+    st.title("📊 Reports")
+    st.write("View and export your analysis reports here.")
