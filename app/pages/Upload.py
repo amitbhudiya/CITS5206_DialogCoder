@@ -4,6 +4,7 @@ import pandas as pd
 import tempfile
 import os
 import sys
+import shutil
 
 # Sidebar navigation
 st.sidebar.page_link("Home.py", label="🏠 Home")
@@ -17,6 +18,9 @@ from file_processor import process_single_file, process_uploaded_csv
 st.title("📄 Upload Transcripts")
 st.markdown(":sparkles: Upload your transcript CSV files here for automatic coding and analysis. :sparkles:")
 st.divider()
+
+REPORT_FOLDER = "uploaded_reports"
+os.makedirs(REPORT_FOLDER, exist_ok=True)
 
 with st.container():
     with st.expander("📋 View file format requirements"):
@@ -43,21 +47,24 @@ with st.container():
             try:
                 df = pd.read_csv(file)
                 st.dataframe(df.head(), use_container_width=True, hide_index=True)
-                # Save uploaded file to temporary directory
                 temp_input = tempfile.NamedTemporaryFile(delete=False, suffix='.csv')
                 df.to_csv(temp_input.name, index=False)
                 temp_input_paths.append(temp_input.name)
-                # Pre-generate output file path
                 temp_output = tempfile.NamedTemporaryFile(delete=False, suffix='.csv')
                 temp_output_paths.append(temp_output.name)
             except Exception as e:
                 st.error(f"❌ Preview failed: {e}")
-        # Process and generate downloadable files
+
         if len(temp_input_paths) == 1:
             process_single_file(temp_input_paths[0], temp_output_paths[0])
         elif len(temp_input_paths) > 1:
             process_uploaded_csv(temp_input_paths, temp_output_paths)
-        # Download button and result preview
+
+        all_results = []
+        # Clear old reports
+        for old_file in os.listdir(REPORT_FOLDER):
+            os.remove(os.path.join(REPORT_FOLDER, old_file))
+
         for idx, file in enumerate(uploaded_files):
             with open(temp_output_paths[idx], "rb") as f:
                 st.download_button(
@@ -66,7 +73,6 @@ with st.container():
                     file_name=f"processed_{file.name}",
                     mime="text/csv"
                 )
-            # Result preview (Show more button)
             try:
                 result_df = pd.read_csv(temp_output_paths[idx])
                 show_rows_key = f"show_rows_{idx}"
@@ -80,9 +86,22 @@ with st.container():
                         try:
                             st.experimental_rerun()
                         except AttributeError:
-                            pass  # Low version compatibility, no error but will not auto refresh
+                            pass
+                all_results.append(result_df)
             except Exception as e:
                 st.error(f"❌ Result preview failed: {e}")
+
+        if all_results:
+            combined_df = pd.concat(all_results, ignore_index=True)
+            if "code" in combined_df.columns:
+                freq_df = combined_df["code"].value_counts().reset_index()
+                freq_df.columns = ["code", "frequency"]
+                freq_df = freq_df.sort_values("code")
+                freq_df.to_csv(os.path.join(REPORT_FOLDER, "summary_frequency.csv"), index=False)
+
+            for idx, file in enumerate(uploaded_files):
+                shutil.copy(temp_output_paths[idx], os.path.join(REPORT_FOLDER, f"processed_{file.name}"))
+
     else:
         st.info("Please upload transcript CSV files. Batch upload is supported.")
 
