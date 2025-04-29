@@ -61,9 +61,10 @@ with st.container():
             process_uploaded_csv(temp_input_paths, temp_output_paths)
 
         all_results = []
-        # Clear old reports
-        for old_file in os.listdir(REPORT_FOLDER):
-            os.remove(os.path.join(REPORT_FOLDER, old_file))
+        # Clear old reports with user confirmation
+        if st.button("Clear old reports in the folder?"):
+            for old_file in os.listdir(REPORT_FOLDER):
+                os.remove(os.path.join(REPORT_FOLDER, old_file))
 
         for idx, file in enumerate(uploaded_files):
             with open(temp_output_paths[idx], "rb") as f:
