@@ -1,13 +1,11 @@
 import streamlit as st
 st.set_page_config(page_title="Manage Coding Dictionary", layout="wide")
+
+from components.sidebar import show_sidebar
+show_sidebar()
+
 import pandas as pd
 import os
-
-# Sidebar navigation
-st.sidebar.page_link("Home.py", label="🏠 Home")
-st.sidebar.page_link("pages/Dictionary.py", label="📚 Dictionary")
-st.sidebar.page_link("pages/Upload.py", label="📤 Upload")
-st.sidebar.page_link("pages/Reports.py", label="📊 Reports")
 
 st.title("📚 Manage Coding Dictionary")
 

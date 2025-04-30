@@ -1,6 +1,7 @@
 import streamlit as st
+from components.sidebar import show_sidebar
 
-# Page configuration
+# Page configuration - 必须是第一个 Streamlit 命令
 st.set_page_config(
     page_title="Transcript Coder",
     page_icon="🎯",
@@ -8,12 +9,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Sidebar navigation
-with st.sidebar:
-    st.page_link("Home.py", label="🏠 Home")
-    st.page_link("pages/Dictionary.py", label="📚 Dictionary")
-    st.page_link("pages/Upload.py", label="📤 Upload")
-    st.page_link("pages/Reports.py", label="📊 Reports")
+# 显示导航栏
+show_sidebar()
 
 # Main page content
 st.title("🎯 Welcome to Transcript Coder")
