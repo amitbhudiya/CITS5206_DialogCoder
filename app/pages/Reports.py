@@ -1,6 +1,12 @@
+import os
 import streamlit as st
 import pandas as pd
+import pandas as pd
+
 st.set_page_config(page_title="Reports and Analysis", layout="wide")
+
+from components.sidebar import show_sidebar
+show_sidebar()
 
 st.title("📊 Reports and Analysis")
 
