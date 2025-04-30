@@ -12,7 +12,7 @@ st.sidebar.page_link("pages/Upload.py", label="📤 Upload")
 st.sidebar.page_link("pages/Reports.py", label="📊 Reports")
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
-from file_processor import process_single_file, process_uploaded_csv
+from file_processor import process_single_file, process_multi_file
 
 st.title("📄 Upload Transcripts")
 st.markdown(":sparkles: Upload your transcript CSV files here for automatic coding and analysis. :sparkles:")
@@ -56,7 +56,7 @@ with st.container():
         if len(temp_input_paths) == 1:
             process_single_file(temp_input_paths[0], temp_output_paths[0])
         elif len(temp_input_paths) > 1:
-            process_uploaded_csv(temp_input_paths, temp_output_paths)
+            process_multi_file(temp_input_paths, temp_output_paths)
         # Download button and result preview
         for idx, file in enumerate(uploaded_files):
             with open(temp_output_paths[idx], "rb") as f:

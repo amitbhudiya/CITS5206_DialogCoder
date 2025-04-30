@@ -31,16 +31,17 @@ def process_single_file(input_file: str, output_file: str):
     """Process a single CSV file."""
     df = read_csv(input_file)
     text_col = get_text_column(df)
-
-    file_path = "../app/uploaded_dictionaries"
+    
+    # Load user-defined dictionary csv file
+    file_path = "../app/uploaded_dictionaries/dictionary.csv"
     b5t_dict = load_dictionaries(file_path)
 
     results = []
     for text in df[text_col]:
         if pd.isna(text):
             continue
-        sentence = load_dictionaries(str(text).strip())
-        b5t, sub1, sub2 = find_b5t_labels(b5t_dict, sentence)
+        # sentence = load_dictionaries(str(text).strip())
+        b5t, sub1, sub2 = find_b5t_labels(b5t_dict, text)
         results.append({
             'Text': text,
             'B5T': b5t,
