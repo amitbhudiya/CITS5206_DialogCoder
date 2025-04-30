@@ -2,9 +2,9 @@ name: CI - Streamlit App
 
 on:
   push:
-    branches: [ development ]
+    branches: [  ]
   pull_request:
-    branches: [ development ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -31,5 +31,5 @@ jobs:
 
       - name: Basic Streamlit run check
         run: |
-          streamlit run app/main.py --server.headless true &
+          streamlit run app/Home.py --server.headless true &
           sleep 10
