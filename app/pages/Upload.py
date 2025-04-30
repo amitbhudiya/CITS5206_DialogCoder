@@ -39,6 +39,7 @@ uploaded_files = st.file_uploader(
     key="uploader"
 )
 
+# 1) new uploads ➜ normal path
 if uploaded_files:
     st.session_state.uploaded_files = uploaded_files
     st.session_state.temp_input_paths.clear()
@@ -123,5 +124,22 @@ if uploaded_files:
             st.dataframe(freq_df, use_container_width=True)
         else:
             st.warning("⚠️ No 'B5T' column found in processed data. Cannot generate summary.")
+
+# 2) user switched away and back ➜ just read from session_state
+elif st.session_state['uploaded_files']:
+    st.success("Showing previously uploaded transcripts (cached).")
+
+    for i, df in enumerate(st.session_state['processed_dfs']):
+        fname = st.session_state['uploaded_files'][i].name
+        st.markdown(f"**Preview of `{fname}`:**")
+        st.dataframe(df.head(), use_container_width=True, hide_index=True)
+
+    # reuse the existing summary-report code
+    combined_df = pd.concat(st.session_state['processed_dfs'], ignore_index=True)
+    if "B5T" in combined_df.columns:
+        freq_df = combined_df["B5T"].value_counts().reset_index()
+        freq_df.columns = ["code", "frequency"]
+        st.dataframe(freq_df.sort_values("code"), use_container_width=True)
+
 else:
     st.info("Upload transcript CSV files to begin.")
