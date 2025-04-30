@@ -1,7 +1,8 @@
 import streamlit as st
 from components.sidebar import show_sidebar
+from components.footer import show_footer
 
-# Page configuration - 必须是第一个 Streamlit 命令
+# Page configuration - must be the first Streamlit command
 st.set_page_config(
     page_title="Transcript Coder",
     page_icon="🎯",
@@ -9,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 显示导航栏
+# Show navigation bar
 show_sidebar()
 
 # Main page content
@@ -28,6 +29,5 @@ st.markdown("""
 - **Reports**: Analyze your coded transcripts and download reports.
 """)
 
-st.divider()
-
-st.caption("Built with ❤️ using Streamlit | CITS5206 Group 3")
+# Display footer
+show_footer()

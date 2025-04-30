@@ -1,11 +1,13 @@
 import os
 import streamlit as st
 import pandas as pd
-import pandas as pd
+import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Reports and Analysis", layout="wide")
 
 from components.sidebar import show_sidebar
+from components.footer import show_footer
+
 show_sidebar()
 
 st.title("📊 Reports and Analysis")
@@ -91,14 +93,14 @@ if 'processed_dfs' in st.session_state and st.session_state['processed_dfs']:
         
         # Pie chart option
         if st.checkbox("Show Pie Chart"):
-            fig = pd.DataFrame(freq_df).plot.pie(y='frequency', labels=freq_df['B5T'], figsize=(10, 10), legend=False).figure
+            fig, ax = plt.subplots(figsize=(10, 10))
+            freq_df.plot.pie(y='frequency', labels=freq_df['B5T'], ax=ax, legend=False)
             st.pyplot(fig)
     else:
         st.warning("The processed transcripts do not contain 'B5T' column. Please ensure your transcripts were properly coded.")
         
 else:
     st.info("No processed transcripts available. Please upload and process transcripts first.")
-    
 
-st.divider()
-st.caption("Data analysis is performed locally • Built with ❤️ using Streamlit")
+# Display footer
+show_footer()
