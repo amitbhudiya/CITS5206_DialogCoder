@@ -70,3 +70,28 @@ def process_uploaded_csv(input_path: Union[str, List[str]], output_path: Union[s
 
     # Single file case
     process_single_file(input_path, output_path)
+
+# In-memory processing for a single DataFrame (used in Streamlit)
+def process_single_file_in_memory(df: pd.DataFrame) -> pd.DataFrame:
+    text_col = get_text_column(df)
+
+    results = []
+    for text in df[text_col]:
+        if pd.isna(text):
+            continue
+        categories = classify_sentence(str(text).strip())
+        b5t, sub1, sub2 = get_b5t_and_subcategories(categories)
+        results.append({
+            'Text': text,
+            'B5T': b5t,
+            'Subcategory1': sub1,
+            'Subcategory2': sub2
+        })
+
+    return pd.DataFrame(results)
+
+
+# Optional: Batch in-memory processing (not required unless you want batch mode)
+def process_uploaded_csvs_in_memory(df_list: List[pd.DataFrame]) -> List[pd.DataFrame]:
+    return [process_single_file_in_memory(df) for df in df_list]
+

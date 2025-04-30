@@ -1,28 +1,20 @@
 import streamlit as st
 st.set_page_config(page_title="Upload Transcripts", layout="wide")
 
+import os
+import tempfile
+import sys
+import pandas as pd
+
 from components.sidebar import show_sidebar
 show_sidebar()
-
-import pandas as pd
-import tempfile
-import os
-import sys
-import shutil
-import io
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
 from file_processor import process_single_file, process_uploaded_csv
 
-# Initialize session_state
-if 'uploaded_files' not in st.session_state:
-    st.session_state.uploaded_files = []
-if 'processed_files' not in st.session_state:
-    st.session_state.processed_files = []
-if 'temp_input_paths' not in st.session_state:
-    st.session_state.temp_input_paths = []
-if 'temp_output_paths' not in st.session_state:
-    st.session_state.temp_output_paths = []
+for key in ['uploaded_files', 'processed_files', 'temp_input_paths', 'temp_output_paths', 'processed_dfs']:
+    if key not in st.session_state:
+        st.session_state[key] = []
 
 st.title("📄 Upload Transcripts")
 st.markdown(":sparkles: Upload your transcript CSV files here for automatic coding and analysis. :sparkles:")
@@ -31,172 +23,105 @@ st.divider()
 REPORT_FOLDER = "uploaded_reports"
 os.makedirs(REPORT_FOLDER, exist_ok=True)
 
-with st.container():
-    with st.expander("📋 View file format requirements"):
-        st.markdown("""
-        - Only `.csv` files are supported
-        - The file must contain a `text` column (case-insensitive)
-        - It is recommended that each row contains one transcript entry
-        - If the file is a simple text file with one entry per line, it will be automatically converted to CSV format
-        """)
-    st.subheader("⬆️ Upload Files:")
-    uploaded_files = st.file_uploader(
-        "Select one or more transcript CSV files to upload",
-        type="csv",
-        accept_multiple_files=True,
-        key="uploader"
-    )
+with st.expander("📋 View file format requirements"):
+    st.markdown("""
+    - Only `.csv` files are supported  
+    - The file must contain a `text` column (case-insensitive)  
+    - Each row should contain one transcript entry  
+    - Plain text files will be auto-converted to CSV  
+    """)
 
-    # Update file list in session_state
-    if uploaded_files:
-        st.session_state.uploaded_files = uploaded_files
-        st.success(f"Successfully uploaded {len(uploaded_files)} file(s)!")
-        
-        # Clear previous temporary file paths
-        st.session_state.temp_input_paths = []
-        st.session_state.temp_output_paths = []
-        
-        for file in uploaded_files:
-            st.write(f"- :page_facing_up: `{file.name}`")
+st.subheader("⬆️ Upload Files:")
+uploaded_files = st.file_uploader(
+    "Upload one or more transcript CSV files",
+    type="csv",
+    accept_multiple_files=True,
+    key="uploader"
+)
+
+if uploaded_files:
+    st.session_state.uploaded_files = uploaded_files
+    st.session_state.temp_input_paths.clear()
+    st.session_state.temp_output_paths.clear()
+    st.session_state.processed_dfs.clear()
+
+    for file in uploaded_files:
+        st.write(f":page_facing_up: `{file.name}`")
+        try:
+            content = file.getvalue().decode("utf-8")
+            if not content.strip():
+                st.error(f"❌ File {file.name} is empty.")
+                continue
+
             try:
-                # Check if file is empty
-                file_content = file.getvalue().decode('utf-8')
-                if not file_content.strip():
-                    st.error(f"❌ File {file.name} is empty")
+                file.seek(0)
+                df = pd.read_csv(file)
+            except pd.errors.ParserError:
+                lines = [line.strip() for line in content.split('\n') if line.strip()]
+                df = pd.DataFrame({'text': lines})
+
+            if 'text' not in df.columns and 'Text' not in df.columns:
+                if len(df.columns) == 1:
+                    df.columns = ['text']
+                else:
+                    st.error(f"❌ File {file.name} does not contain a valid 'text' column.")
                     continue
-                
-                # Try to read CSV file
-                try:
-                    # Reset file pointer
-                    file.seek(0)
-                    df = pd.read_csv(file)
-                except pd.errors.EmptyDataError:
-                    # Skip if file is empty
-                    st.error(f"❌ File {file.name} is empty")
-                    continue
-                except pd.errors.ParserError:
-                    # If not standard CSV format, treat as text file
-                    lines = [line.strip() for line in file_content.split('\n') if line.strip()]
-                    df = pd.DataFrame({'text': lines})
-                
-                # Check if required columns exist
-                if 'text' not in df.columns and 'Text' not in df.columns:
-                    # If first row is header, try to use it as column names
-                    if len(df.columns) == 1:
-                        df.columns = ['text']
-                    else:
-                        st.error(f"❌ File {file.name} does not contain a 'text' column")
-                        continue
-                
-                temp_input = tempfile.NamedTemporaryFile(delete=False, suffix='.csv')
-                df.to_csv(temp_input.name, index=False)
-                st.session_state.temp_input_paths.append(temp_input.name)
-                temp_output = tempfile.NamedTemporaryFile(delete=False, suffix='.csv')
-                st.session_state.temp_output_paths.append(temp_output.name)
-            except Exception as e:
-                st.error(f"❌ Preview failed for {file.name}: {str(e)}")
 
-        if len(st.session_state.temp_input_paths) == 1:
-            process_single_file(st.session_state.temp_input_paths[0], st.session_state.temp_output_paths[0])
-        elif len(st.session_state.temp_input_paths) > 1:
-            process_uploaded_csv(st.session_state.temp_input_paths, st.session_state.temp_output_paths)
+            temp_input = tempfile.NamedTemporaryFile(delete=False, suffix='.csv', prefix='dialogcoder_input_')
+            df.to_csv(temp_input.name, index=False)
+            st.session_state.temp_input_paths.append(temp_input.name)
 
-    # Display uploaded files (if any)
-    if st.session_state.uploaded_files:
-        st.write("**Uploaded files and preview:**")
-        for file in st.session_state.uploaded_files:
-            st.write(f"- :page_facing_up: `{file.name}`")
-            try:
-                # Check if file is empty
-                file_content = file.getvalue().decode('utf-8')
-                if not file_content.strip():
-                    st.error(f"❌ File {file.name} is empty")
-                    continue
-                
-                # Try to read CSV file
-                try:
-                    # Reset file pointer
-                    file.seek(0)
-                    df = pd.read_csv(file)
-                except pd.errors.EmptyDataError:
-                    # Skip if file is empty
-                    st.error(f"❌ File {file.name} is empty")
-                    continue
-                except pd.errors.ParserError:
-                    # If not standard CSV format, treat as text file
-                    lines = [line.strip() for line in file_content.split('\n') if line.strip()]
-                    df = pd.DataFrame({'text': lines})
-                
-                # Check if required columns exist
-                if 'text' not in df.columns and 'Text' not in df.columns:
-                    # If first row is header, try to use it as column names
-                    if len(df.columns) == 1:
-                        df.columns = ['text']
-                    else:
-                        st.error(f"❌ File {file.name} does not contain a 'text' column")
-                        continue
-                
-                st.dataframe(df.head(), use_container_width=True, hide_index=True)
-            except Exception as e:
-                st.error(f"❌ Preview failed: {e}")
-        # Process and generate downloadable files
-        if len(temp_input_paths) == 1:
-            process_single_file(temp_input_paths[0], temp_output_paths[0])
-        elif len(temp_input_paths) > 1:
-            process_uploaded_csv(temp_input_paths, temp_output_paths)
-        # Download button and result preview
-        for idx, file in enumerate(uploaded_files):
-            with open(temp_output_paths[idx], "rb") as f:
-                st.download_button(
-                    label=f"⬇️ Download processed result: processed_{file.name}",
-                    data=f.read(),
-                    file_name=f"processed_{file.name}",
-                    mime="text/csv"
-                )
-            # Result preview (Show more button)
-            try:
-                result_df = pd.read_csv(temp_output_paths[idx])
+            temp_output = tempfile.NamedTemporaryFile(delete=False, suffix='.csv', prefix='dialogcoder_output_')
+            st.session_state.temp_output_paths.append(temp_output.name)
 
-                if 'processed_dfs' not in st.session_state:
-                    st.session_state['processed_dfs'] = []
-                st.session_state['processed_dfs'].append(result_df)
-                
-                show_rows_key = f"show_rows_{idx}"
-                if show_rows_key not in st.session_state:
-                    st.session_state[show_rows_key] = 5
-                st.markdown(f"**Processed result preview:** :eyes:")
-                st.dataframe(result_df.head(st.session_state[show_rows_key]), use_container_width=True, hide_index=True)
-                if st.session_state[show_rows_key] < len(result_df):
-                    if st.button(f"Show more ({file.name})", key=f"show_more_{idx}"):
-                        st.session_state[show_rows_key] = min(st.session_state[show_rows_key] + 10, len(result_df))
-                        try:
-                            st.experimental_rerun()
-                        except AttributeError:
-                            pass
-                all_results.append(result_df)
-            except Exception as e:
-                st.error(f"❌ Result preview failed for {file.name}: {str(e)}")
+        except Exception as e:
+            st.error(f"❌ Failed to process `{file.name}`: {e}")
 
-        if all_results:
-            combined_df = pd.concat(all_results, ignore_index=True)
-            st.write("Processed data columns:", combined_df.columns.tolist())  # Display all column names
-            if "B5T" in combined_df.columns:
-                freq_df = combined_df["B5T"].value_counts().reset_index()
-                freq_df.columns = ["code", "frequency"]
-                freq_df = freq_df.sort_values("code")
-                freq_df.to_csv(os.path.join(REPORT_FOLDER, "summary_frequency.csv"), index=False)
-                st.success("✅ Successfully generated code frequency summary file!")
-            else:
-                st.warning("⚠️ No 'B5T' column found in processed data, cannot generate frequency summary.")
+    if len(st.session_state.temp_input_paths) == 1:
+        process_single_file(st.session_state.temp_input_paths[0], st.session_state.temp_output_paths[0])
+    elif len(st.session_state.temp_input_paths) > 1:
+        process_uploaded_csv(st.session_state.temp_input_paths, st.session_state.temp_output_paths)
 
-            for idx, file in enumerate(st.session_state.uploaded_files):
-                try:
-                    shutil.copy(st.session_state.temp_output_paths[idx], os.path.join(REPORT_FOLDER, f"processed_{file.name}"))
-                except Exception as e:
-                    st.error(f"❌ Failed to save processed file {file.name}: {str(e)}")
+    for idx, file in enumerate(st.session_state.uploaded_files):
+        try:
+            path = st.session_state.temp_output_paths[idx]
+        except IndexError:
+            st.warning(f"⚠️ Skipping `{file.name}`: no processed output found.")
+            continue
 
-    else:
-        st.info("Please upload transcript CSV files. Batch upload is supported.")
+        if not os.path.exists(path):
+            st.warning(f"⚠️ Skipping `{file.name}`: processed file not found.")
+            continue
 
-st.markdown('<hr style="border: 0; height: 3px; background: linear-gradient(90deg, #36d1c4, #5b86e5, #f7971e);">', unsafe_allow_html=True)
-st.caption("For any questions, please contact the administrator | Built with ❤️ using Streamlit")
+        with open(path, "rb") as f:
+            st.download_button(
+                label=f"⬇️ Download processed result: processed_{file.name}",
+                data=f.read(),
+                file_name=f"processed_{file.name}",
+                mime="text/csv"
+            )
+
+        try:
+            df = pd.read_csv(path)
+            st.session_state['processed_dfs'].append(df)
+            st.markdown(f"**Preview of `{file.name}`:**")
+            st.dataframe(df.head(), use_container_width=True, hide_index=True)
+        except Exception:
+            st.error(f"❌ Failed to preview `{file.name}`.")
+
+    if st.session_state['processed_dfs']:
+        combined_df = pd.concat(st.session_state['processed_dfs'], ignore_index=True)
+        st.markdown("### 📊 Summary Report (B5T frequency)")
+
+        if "B5T" in combined_df.columns:
+            freq_df = combined_df["B5T"].value_counts().reset_index()
+            freq_df.columns = ["code", "frequency"]
+            freq_df = freq_df.sort_values("code")
+
+            csv = freq_df.to_csv(index=False).encode('utf-8')
+            st.download_button("⬇️ Download summary_frequency.csv", csv, file_name="summary_frequency.csv", mime="text/csv")
+            st.dataframe(freq_df, use_container_width=True)
+        else:
+            st.warning("⚠️ No 'B5T' column found in processed data. Cannot generate summary.")
+else:
+    st.info("Upload transcript CSV files to begin.")
