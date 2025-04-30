@@ -18,7 +18,19 @@ DICT_PATH = os.path.join(UPLOAD_FOLDER, "dictionary.csv")
 REQUIRED_COLUMNS = {"category", "keywords"}
 
 uploaded_file = st.file_uploader("Upload a new dictionary CSV", type="csv")
-
+with st.expander("📋 View file format requirements"):
+    st.markdown("""
+    **For dictionary CSV files:**
+    - Only `.csv` files are supported.
+    - The file must have exactly two columns: `category` and `keywords` (case-insensitive).
+    - Each row should map one `category` to a comma-separated list of `keywords`.
+    - Example:
+      ```
+      category,keywords
+      acknowledge,hello,hi,roger
+      question,what,why,how
+      ```
+    """)
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
     if set(df.columns.str.lower()) == REQUIRED_COLUMNS:
