@@ -62,6 +62,11 @@ with st.container():
             # Result preview (Show more button)
             try:
                 result_df = pd.read_csv(temp_output_paths[idx])
+
+                if 'processed_dfs' not in st.session_state:
+                    st.session_state['processed_dfs'] = []
+                st.session_state['processed_dfs'].append(result_df)
+                
                 show_rows_key = f"show_rows_{idx}"
                 if show_rows_key not in st.session_state:
                     st.session_state[show_rows_key] = 5
