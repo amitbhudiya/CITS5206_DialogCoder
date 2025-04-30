@@ -64,7 +64,10 @@ with st.container():
         # Clear old reports with user confirmation
         if st.button("Clear old reports in the folder?"):
             for old_file in os.listdir(REPORT_FOLDER):
-                os.remove(os.path.join(REPORT_FOLDER, old_file))
+                try:
+                    os.remove(os.path.join(REPORT_FOLDER, old_file))
+                except OSError as e:
+                    st.warning(f"⚠️ Could not delete file {old_file}: {e}")
 
         for idx, file in enumerate(uploaded_files):
             with open(temp_output_paths[idx], "rb") as f:
