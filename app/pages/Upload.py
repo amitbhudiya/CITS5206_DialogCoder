@@ -12,7 +12,7 @@ from components.footer import show_footer
 show_sidebar()
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
-from file_processor import process_single_file, process_multi_files
+from file_processor import process_single_file, process_uploaded_csv
 
 for key in ['uploaded_files', 'processed_files', 'temp_input_paths', 'temp_output_paths', 'processed_dfs']:
     if key not in st.session_state:
@@ -84,7 +84,7 @@ if uploaded_files:
     if len(st.session_state.temp_input_paths) == 1:
         process_single_file(st.session_state.temp_input_paths[0], st.session_state.temp_output_paths[0])
     elif len(st.session_state.temp_input_paths) > 1:
-        process_multi_files(st.session_state.temp_input_paths, st.session_state.temp_output_paths)
+        process_uploaded_csv(st.session_state.temp_input_paths, st.session_state.temp_output_paths)
 
     for idx, file in enumerate(st.session_state.uploaded_files):
         try:

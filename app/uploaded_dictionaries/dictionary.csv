@@ -1,12 +1,5 @@
-B5T,Keywords
-ASP,"assign,reassign,allocate,allocating,requesting,priority,prioritize,prioritise,prioritizing,take,work on,focus,switch,first,next,now"
-ORD,"down,raise,cut,assign solution,cut through,capture image,immediate action,execute,must"
-DUP,"identified,disregard,updated solution,all positions,lost tracking,lost tracker,lost track,visual contact,new contact,update"
-FB,"lagging,check,speed,range,should be,over,under,knots,kiloyards"
-MV,"looking good,well done,let's go,great work,excellent job,keep it up"
-PUSHED,"monitoring,updated,new contact,bearing,range,kiloyards,ATB,rendezvous,visual range,in visual,fire,dive,surface,turn,speed"
-PULLED,"can I get,can you please,please give me,what's happening,would you like me,should I,do you want me,any report,no report,confirm again"
-RESPONSE,"is at,ATB,range is,confirmed,detected,still there"
-CLC,"roger,thank you,standby,confirm,copy,acknowledged,understood,yep,yeah,okay,yes,go,affirmative,negative,yes please,no thank you"
-MISCOM,"stop,not correct,not right,disregard previous,apologies,make that,disregard,abort,error"
-WL,"watch leader,update,check,system,monitoring station,WL update"
+category,keywords
+PUSHED,"bearing,range,atb,speed,match"
+CLC,"roger,thank,sonar,optimus,okay"
+TL,"solution,assign,trackmanager,update,tma1"
+RESPONSE,"kiloyards,starboard,rates,yes,knots"

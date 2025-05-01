@@ -17,7 +17,7 @@ st.title("📚 Manage Coding Dictionary")
 UPLOAD_FOLDER = "uploaded_dictionaries"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 DICT_PATH = os.path.join(UPLOAD_FOLDER, "dictionary.csv")
-REQUIRED_COLUMNS = {"B5T", "Keywords"}
+REQUIRED_COLUMNS = {"category", "keywords"}
 
 # Upload section
 uploaded_file = st.file_uploader("🔼 Upload a new dictionary CSV", type="csv")
@@ -25,8 +25,14 @@ uploaded_file = st.file_uploader("🔼 Upload a new dictionary CSV", type="csv")
 with st.expander("📋 View file format requirements"):
     st.markdown("""
     **Expected CSV Format:**
-    - Columns: `B5T`, `Keywords` (case-insensitive)
+    - Columns: `category`, `keywords` (case-insensitive)
     - `keywords` should be a comma-separated list like `hello,hi,roger`
+    - Example:
+      ```
+      category,keywords
+      acknowledge,hello,hi,roger
+      question,what,why,how
+      ```
     """)
 
 # Handle upload
@@ -59,11 +65,11 @@ if os.path.exists(DICT_PATH):
 
     # Search/filter
     search_term = st.text_input("🔍 Search categories").lower()
-    filtered_df = df[df['b5t'].str.lower().str.contains(search_term)] if search_term else df
+    filtered_df = df[df['category'].str.lower().str.contains(search_term)] if search_term else df
 
     # Add new row
     if st.button("➕ Add Empty Row"):
-        empty_row = pd.DataFrame([{"b5t": "", "keywords": ""}])
+        empty_row = pd.DataFrame([{"category": "", "keywords": ""}])
         filtered_df = pd.concat([filtered_df, empty_row], ignore_index=True)
 
     # Show editable table
@@ -75,10 +81,10 @@ if os.path.exists(DICT_PATH):
     )
 
     # Basic validation
-    if edited_df['b5t'].isnull().any() or edited_df['keywords'].isnull().any():
+    if edited_df['category'].isnull().any() or edited_df['keywords'].isnull().any():
         st.warning("⚠️ Some rows have empty values.")
-    elif edited_df['b5t'].duplicated().any():
-        st.warning("⚠️ Duplicate b5t entries found.")
+    elif edited_df['category'].duplicated().any():
+        st.warning("⚠️ Duplicate category entries found.")
 
     # Save changes
     col1, col2 = st.columns([1, 1])
@@ -95,7 +101,7 @@ if os.path.exists(DICT_PATH):
     # Stats
     st.markdown("---")
     st.metric("Total Entries", len(edited_df))
-    st.metric("Unique Categories", edited_df['b5t'].nunique())
+    st.metric("Unique Categories", edited_df['category'].nunique())
 else:
     st.warning("⚠️ No dictionary uploaded yet.")
 
