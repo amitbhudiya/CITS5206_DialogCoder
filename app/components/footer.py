@@ -5,7 +5,7 @@ def show_footer():
     st.markdown("""
         <style>
         .footer {
-            position: fixed;
+            position: relative;
             left: 0;
             bottom: 0;
             width: 100%;
@@ -13,6 +13,7 @@ def show_footer():
             text-align: center;
             padding: 10px;
             border-top: 1px solid rgba(230, 230, 230, 0.5);
+            margin-top: auto;
         }
         </style>
         """, unsafe_allow_html=True)
