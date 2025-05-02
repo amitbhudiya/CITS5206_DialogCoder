@@ -17,7 +17,7 @@ st.title("📚 Manage Coding Dictionary")
 UPLOAD_FOLDER = "uploaded_dictionaries"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 DICT_PATH = os.path.join(UPLOAD_FOLDER, "dictionary.csv")
-REQUIRED_COLUMNS = {"category", "keywords"}
+REQUIRED_COLUMNS = {"b5t", "keywords"}
 
 # Upload section
 uploaded_file = st.file_uploader("🔼 Upload a new dictionary CSV", type="csv")
