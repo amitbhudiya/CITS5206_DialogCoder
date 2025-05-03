@@ -1,3 +1,1 @@
-"""
-Unit tests for DialogCoder application.
-""" 
+"""Test package for unit tests."""
