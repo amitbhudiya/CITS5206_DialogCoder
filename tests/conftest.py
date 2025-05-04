@@ -22,7 +22,7 @@ def run_app():
     """
     # Start Streamlit in a background process
     process = subprocess.Popen(
-        ["streamlit", "run", "app.py", "--server.port", "8501"],
+        ["streamlit", "run", "app/Home.py", "--server.port", "8501"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True
