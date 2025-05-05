@@ -142,4 +142,4 @@ This project uses GitHub Actions for continuous integration. The workflow:
 - Runs linting checks
 - Executes unit tests
 - Performs end-to-end testing
-- Verifies Streamlit startup
+- Verifies Streamlit startup 

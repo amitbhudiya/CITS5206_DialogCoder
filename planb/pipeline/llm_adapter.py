@@ -6,7 +6,7 @@ import os
 import time
 import json
 from typing import Dict, Any, Optional
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 
 class LLMAdapter:
@@ -49,7 +49,10 @@ class OpenRouterClient:
             raise ValueError("OPENROUTER_API_KEY environment variable is not set")
         
         # Initialize OpenAI client with API key
-        self.client = openai.OpenAI(api_key=self.api_key)
+        self.client = OpenAI(
+            api_key=self.api_key,
+            base_url="https://openrouter.ai/api/v1"
+        )
         
         # Default model
         self.model = "openrouter/llama-3-70b-instruct"
@@ -96,7 +99,11 @@ class OpenRouterClient:
                         {"role": "user", "content": user_prompt}
                     ],
                     temperature=0.2,  # Low temperature for more deterministic results
-                    response_format={"type": "json_object"}
+                    response_format={"type": "json_object"},
+                    extra_headers={
+                        "HTTP-Referer": "http://localhost",   # for OpenRouter free-tier
+                        "X-Title": "DialogueCoder-PlanB"
+                    }
                 )
                 
                 # Parse response

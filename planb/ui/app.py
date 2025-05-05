@@ -1,12 +1,16 @@
 """
 TODO MVP v0.1
 """
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
+
 
 import os
 import pandas as pd
 import streamlit as st
 from pathlib import Path
 from typing import Tuple, Optional, Dict
+
 
 from planb.controller.dispatcher import run_classification
 from planb.persistence.exporter import export_csv
