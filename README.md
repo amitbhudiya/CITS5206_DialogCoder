@@ -16,6 +16,7 @@ A streamlined application to automate the coding of dialogue transcripts for res
     - [Installation](#installation)
   - [Plan B (LLM-assisted pipeline)](#plan-b-llm-assisted-pipeline)
     - [Running the App](#running-the-app)
+  - [Plan B Demo UI (LLM-assisted)](#plan-b-demo-ui-llm-assisted)
   - [Testing](#testing)
     - [Running Tests](#running-tests)
 - [Plan B tests (27 fast unit tests)](#plan-b-tests-27-fast-unit-tests)
@@ -128,8 +129,8 @@ suite and GitHub Action (`.github/workflows/planb-ci.yml`).
 Start the Streamlit application:
 
 ```bash
-streamlit run app/Home.py            # ← classic Plan A UI
-
+streamlit run app/Home.py   # ← classic Plan A UI
+```
 ## Plan B Demo UI (LLM-assisted)
 
 ```bash
