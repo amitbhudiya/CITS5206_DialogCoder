@@ -14,9 +14,12 @@ A streamlined application to automate the coding of dialogue transcripts for res
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
+  - [Plan B (LLM-assisted pipeline)](#plan-b-llm-assisted-pipeline)
     - [Running the App](#running-the-app)
+  - [Plan B Demo UI (LLM-assisted)](#plan-b-demo-ui-llm-assisted)
   - [Testing](#testing)
     - [Running Tests](#running-tests)
+- [Plan B tests (27 fast unit tests)](#plan-b-tests-27-fast-unit-tests)
     - [Test Types](#test-types)
   - [Project Structure](#project-structure)
   - [CI/CD](#cicd)
@@ -86,12 +89,52 @@ The application transforms a repetitive, error-prone manual process into an effi
    pip install -r requirements.txt
    ```
 
+## Plan B (LLM-assisted pipeline)
+
+Plan B is an experimental, self-contained pipeline that augments the classic
+keyword matcher with an LLM (via **OpenRouter**) and a small set of additional
+components written under `planb/`.
+
+1. **Install Plan B requirements**
+
+   ```bash
+   pip install -r planb/requirements-planb.txt
+   ```
+
+2. **Create a `.env` file** in the repo root with your API key (and optional
+   threshold override):
+
+   ```env
+   OPENROUTER_API_KEY="sk-..."
+   CONFIDENCE_THRESHOLD=0.50  # default is 0.50 if omitted
+   ```
+
+3. **Run the demo UI** (separate from the classic Streamlit multipage app):
+
+   ```bash
+   streamlit run planb/ui/app.py
+   ```
+
+4. **Run Plan B tests** (27 fast unit tests):
+
+   ```bash
+   pytest -q tests/planb
+   ```
+
+The Plan B workflow is isolated from Plan A: it has its own dependencies, test
+suite and GitHub Action (`.github/workflows/planb-ci.yml`).
+
 ### Running the App
 
 Start the Streamlit application:
 
 ```bash
-streamlit run app/Home.py
+streamlit run app/Home.py   # ← classic Plan A UI
+```
+## Plan B Demo UI (LLM-assisted)
+
+```bash
+streamlit run planb/ui/app.py        # ← experimental Plan B interface
 ```
 
 The application will be available at http://localhost:8501 in your web browser.
@@ -103,6 +146,11 @@ The application will be available at http://localhost:8501 in your web browser.
 Run unit tests:
 ```bash
 pytest tests/unit/ -v
+```
+
+# Plan B tests (27 fast unit tests)
+```bash
+pytest -q tests/planb
 ```
 
 Run end-to-end tests:
@@ -128,16 +176,36 @@ CITS5206_DialogCoder/
 │   ├── Home.py           # Streamlit entry point
 │   ├── pages/            # Additional Streamlit pages
 │   └── services/         # Business logic
+├── planb/                # **Plan B** — self-contained LLM pipeline
+│   ├── ui/               # Streamlit single-page demo
+│   ├── controller/       # Dispatcher / orchestration
+│   ├── pipeline/         # Keyword → LLM → Aggregator components
+│   ├── column_inference/ # Helpers to map dictionary columns
+│   ├── persistence/      # CSV exporter
+│   ├── logging/          # Minimal logger stub
+│   ├── manual-test-files/# Sample CSVs for quick experimentation
+│   └── requirements-planb.txt
 ├── tests/                # Test suite
 │   ├── e2e/              # End-to-end browser tests
-│   ├── unit/             # Unit tests
+│   ├── unit/             # Unit tests (Plan A)
+│   └── planb/            # 🆕  Plan B unit tests (27 passing)
 │   └── sample_files/     # Test data
 └── .github/              # CI/CD configuration
+    ├── workflows/ci.yml        # Plan A checks
+    └── workflows/planb-ci.yml  # Plan B checks
 ```
 
 ## CI/CD
 
-This project uses GitHub Actions for continuous integration. The workflow:
+This project uses GitHub Actions for continuous integration. Two workflows now
+run in parallel:
+
+1. **ci.yml** – legacy Plan A lint / unit / e2e tests
+2. **planb-ci.yml** – lightweight Plan B pytest run (`tests/planb`)
+
+Each workflow is triggered only when files relevant to that plan are modified.
+
+The CI steps:
 - Builds the application
 - Runs linting checks
 - Executes unit tests
