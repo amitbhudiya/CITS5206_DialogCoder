@@ -1,8 +1,10 @@
 import streamlit as st
 
+
 def show_sidebar():
     # Add CSS to hide default navigation bar and adjust button size
-    st.markdown("""
+    st.markdown(
+        """
     <style>
         [data-testid="stSidebarNav"] {
             display: none;
@@ -26,10 +28,12 @@ def show_sidebar():
             vertical-align: middle;
         }
     </style>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
     # Sidebar navigation
     st.sidebar.page_link("Home.py", label="🏠 Home")
     st.sidebar.page_link("pages/Dictionary.py", label="📚 Dictionary")
     st.sidebar.page_link("pages/Upload.py", label="📤 Upload")
-    st.sidebar.page_link("pages/Reports.py", label="📊 Reports") 
+    st.sidebar.page_link("pages/Reports.py", label="📊 Reports")
