@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 import logging
-from classifier import classify_sentence, get_b5t_and_subcategories
+from classifier import load_dictionaries, find_b5t_labels
 from typing import Union, List
 
 # Setup logging
@@ -31,13 +31,17 @@ def process_single_file(input_file: str, output_file: str):
     """Process a single CSV file."""
     df = read_csv(input_file)
     text_col = get_text_column(df)
+    
+    # Load user-defined dictionary csv file
+    file_path = "../app/uploaded_dictionaries/dictionary.csv"
+    b5t_dict = load_dictionaries(file_path)
 
     results = []
     for text in df[text_col]:
         if pd.isna(text):
             continue
-        categories = classify_sentence(str(text).strip())
-        b5t, sub1, sub2 = get_b5t_and_subcategories(categories)
+        # sentence = load_dictionaries(str(text).strip())
+        b5t, sub1, sub2 = find_b5t_labels(b5t_dict, text)
         results.append({
             'Text': text,
             'B5T': b5t,
@@ -49,8 +53,8 @@ def process_single_file(input_file: str, output_file: str):
     output_df.to_csv(output_file, index=False)
     logging.info(f"Processed {len(results)} rows from {input_file}. Output saved to {output_file}")
 
-# Process uploaded CSV files or folders
-def process_uploaded_csv(input_path: Union[str, List[str]], output_path: Union[str, List[str]]):
+# Process multiple CSV files or folders
+def process_multi_files(input_path: Union[str, List[str]], output_path: Union[str, List[str]]):
     if isinstance(input_path, list):
         if not isinstance(output_path, list) or len(input_path) != len(output_path):
             raise ValueError("When input_path is a list, output_path must be a list of the same length.")
@@ -70,28 +74,3 @@ def process_uploaded_csv(input_path: Union[str, List[str]], output_path: Union[s
 
     # Single file case
     process_single_file(input_path, output_path)
-
-# In-memory processing for a single DataFrame (used in Streamlit)
-def process_single_file_in_memory(df: pd.DataFrame) -> pd.DataFrame:
-    text_col = get_text_column(df)
-
-    results = []
-    for text in df[text_col]:
-        if pd.isna(text):
-            continue
-        categories = classify_sentence(str(text).strip())
-        b5t, sub1, sub2 = get_b5t_and_subcategories(categories)
-        results.append({
-            'Text': text,
-            'B5T': b5t,
-            'Subcategory1': sub1,
-            'Subcategory2': sub2
-        })
-
-    return pd.DataFrame(results)
-
-
-# Optional: Batch in-memory processing (not required unless you want batch mode)
-def process_uploaded_csvs_in_memory(df_list: List[pd.DataFrame]) -> List[pd.DataFrame]:
-    return [process_single_file_in_memory(df) for df in df_list]
-
