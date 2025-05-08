@@ -18,7 +18,7 @@ st.title("🎯 Welcome to Transcript Coder")
 
 st.markdown(
     """
-Effortlessly upload, code, and analyze your transcripts with ease.  
+Effortlessly upload, code, and analyze your transcripts with ease.
 """
 )
 
