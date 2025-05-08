@@ -1,1 +1,1 @@
-"""Tests for Plan B components.""" 
+"""Tests for Plan B components."""
