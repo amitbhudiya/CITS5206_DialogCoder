@@ -33,7 +33,7 @@ def process_single_file(input_file: str, output_file: str):
     text_col = get_text_column(df)
     
     # Load user-defined dictionary csv file
-    file_path = "../app/uploaded_dictionaries/dictionary.csv"
+    file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../app/uploaded_dictionaries/dictionary.csv'))
     b5t_dict = load_dictionaries(file_path)
 
     results = []

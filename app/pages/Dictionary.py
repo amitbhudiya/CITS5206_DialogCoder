@@ -14,7 +14,7 @@ show_sidebar()
 st.title("📚 Manage Coding Dictionary")
 
 # Setup dictionary saving
-UPLOAD_FOLDER = "uploaded_dictionaries"
+UPLOAD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), '../uploaded_dictionaries'))
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 DICT_PATH = os.path.join(UPLOAD_FOLDER, "dictionary.csv")
 REQUIRED_COLUMNS = {"b5t", "keywords"}
@@ -36,12 +36,11 @@ if uploaded_file:
         df.columns = [col.lower() for col in df.columns]
 
         if set(df.columns) == REQUIRED_COLUMNS:
-            # Backup old dictionary
-            if os.path.exists(DICT_PATH):
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                backup_path = os.path.join(UPLOAD_FOLDER, f"dictionary_backup_{timestamp}.csv")
-                os.rename(DICT_PATH, backup_path)
-
+            # Delete all existing dictionary files
+            for f in os.listdir(UPLOAD_FOLDER):
+                if f.endswith('.csv'):
+                    os.remove(os.path.join(UPLOAD_FOLDER, f))
+            # No need to backup, since all csv files are deleted
             df.to_csv(DICT_PATH, index=False)
             st.success("✅ Dictionary uploaded and saved successfully!")
 
