@@ -1,11 +1,10 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
-
-st.set_page_config(page_title="Reports and Analysis", layout="wide")
-
 from components.footer import show_footer
 from components.sidebar import show_sidebar
+
+st.set_page_config(page_title="Reports and Analysis", layout="wide")
 
 show_sidebar()
 
