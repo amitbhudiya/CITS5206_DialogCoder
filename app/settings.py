@@ -3,8 +3,8 @@
 import os
 
 # Absolute path to the dictionary upload folder
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-UPLOAD_FOLDER = os.path.join(BASE_DIR, "../uploaded_dictionaries")
+DICT_DIR = os.path.abspath(os.path.dirname(__file__))
+UPLOAD_FOLDER = os.path.join(DICT_DIR, "../uploaded_dictionaries")
 
 # Path to main dictionary CSV file
 DICT_PATH = os.path.join(UPLOAD_FOLDER, "dictionary.csv")
