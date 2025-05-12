@@ -5,10 +5,8 @@ Pytest configuration and fixtures for DialogCoder application tests.
 import socket
 import subprocess
 import time
-
 import pytest
 import requests
-
 
 @pytest.fixture(scope="session")
 def run_app():
@@ -34,6 +32,8 @@ def run_app():
     # Wait for the server to start
     max_retries = 60
     wait_seconds = 1
+    
+    
 
     for _ in range(max_retries):
         try:
