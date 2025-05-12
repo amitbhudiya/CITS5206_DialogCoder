@@ -5,14 +5,14 @@ import tempfile
 import pandas as pd
 from components.footer import show_footer
 from components.sidebar import show_sidebar
-from file_processor import process_multi_files, process_single_file
+
 
 st.set_page_config(page_title="Upload Transcripts", layout="wide")
 
 show_sidebar()
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
-
+from file_processor import process_multi_files, process_single_file
 
 for key in [
     "uploaded_files",
@@ -36,13 +36,12 @@ os.makedirs(REPORT_FOLDER, exist_ok=True)
 with st.expander("📋 View file format requirements"):
     st.warning(
         """
-    **⚠️ Important File Requirements:**
-    
-    - Only `.csv` files are supported  
-    - The file must contain a `text` column (case-insensitive)  
-    - Each row should contain one transcript entry  
-    - Plain text files will be auto-converted to CSV  
-    """
+            **⚠️ Important File Requirements:**
+            - Only `.csv` files are supported  
+            - The file must contain a `text` column (case-insensitive)  
+            - Each row should contain one transcript entry  
+            - Plain text files will be auto-converted to CSV  
+        """
     )
 
 st.subheader("⬆️ Upload Files:")
