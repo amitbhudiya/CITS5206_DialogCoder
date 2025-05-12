@@ -41,7 +41,8 @@ def test_upload_dictionary(run_app, chrome_driver):
     # ✅ Step 2: Confirm page title appears (not tab title)
     wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
     body_text = chrome_driver.find_element(By.TAG_NAME, "body").text
-    assert "Manage Coding Dictionary" in body_text
+    assert "Manage Coding Dictionary" in body_text, f"Unexpected page content: {body_text}"
+
 
     # ✅ Step 3: Locate the file input
     file_input = wait.until(
