@@ -23,13 +23,17 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pytest-cov selenium webdriver-manager
+          pip install pytest pytest-cov selenium webdriver-manager flake8 requests
+
+      - name: Confirm Dictionary.py file (case sensitive)
+        run: |
+          echo "📄 Listing files in pages/"
+          ls -l app/pages
 
       - name: Lint check
         run: |
-          pip install flake8
-          flake8 app/ --max-line-length=120 --ignore=E402
-          
+          flake8 app/ --max-line-length=120
+
       - name: Run unit tests
         run: |
           pytest tests/unit/ -v
@@ -39,19 +43,25 @@ jobs:
         with:
           chrome-version: stable
 
-      - name: Run e2e tests
+      - name: Run E2E tests with Streamlit
         run: |
-          # Start Streamlit in background
+          echo "🚀 Starting Streamlit..."
           streamlit run app/Home.py --server.headless true &
-          # Wait for Streamlit to start
-          sleep 10
-          # Run e2e tests
+          
+          echo "⏳ Waiting for Streamlit to become responsive..."
+          for i in {1..60}; do
+            if curl -s http://localhost:8501/Dictionary | grep -q "Manage Coding Dictionary"; then
+              echo "✅ Streamlit is ready"
+              break
+            fi
+            echo "Waiting ($i)..."
+            sleep 1
+          done
+
+          echo "🔎 Running E2E tests"
           pytest tests/e2e/ -v
 
-      - name: Basic Streamlit run check
+      - name: Kill Streamlit after tests
+        if: always()
         run: |
-          # Kill any running Streamlit instance
           pkill -f streamlit || true
-          # Start fresh instance
-          streamlit run app/Home.py --server.headless true &
-          sleep 10 
