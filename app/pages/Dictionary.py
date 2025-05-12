@@ -1,10 +1,10 @@
+import streamlit as st
+import pandas as pd
 import os
 from datetime import datetime
-from app import settings
-import pandas as pd
-import streamlit as st
-from components.footer import show_footer
+
 from components.sidebar import show_sidebar
+from components.footer import show_footer
 
 # Page config
 st.set_page_config(page_title="Manage Coding Dictionary", layout="wide")
@@ -15,22 +15,20 @@ show_sidebar()
 st.title("📚 Manage Coding Dictionary")
 
 # Setup dictionary saving
+UPLOAD_FOLDER = "uploaded_dictionaries"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+DICT_PATH = os.path.join(UPLOAD_FOLDER, "dictionary.csv")
+REQUIRED_COLUMNS = {"b5t", "keywords"}
 
-os.makedirs(settings.UPLOAD_FOLDER, exist_ok=True)
-settings.UPLOAD_FOLDER
-settings.DICT_PATH
-settings.REQUIRED_COLUMNS
 # Upload section
 uploaded_file = st.file_uploader("🔼 Upload a new dictionary CSV", type="csv")
 
 with st.expander("📋 View file format requirements"):
-    st.markdown(
-        """
+    st.markdown("""
     **Expected CSV Format:**
     - Columns: `B5T`, `Keywords` (case-insensitive)
     - `keywords` should be a comma-separated list like `hello,hi,roger`
-    """
-    )
+    """)
 
 # Handle upload
 if uploaded_file:
@@ -42,9 +40,7 @@ if uploaded_file:
             # Backup old dictionary
             if os.path.exists(DICT_PATH):
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                backup_path = os.path.join(
-                    UPLOAD_FOLDER, f"dictionary_backup_{timestamp}.csv"
-                )
+                backup_path = os.path.join(UPLOAD_FOLDER, f"dictionary_backup_{timestamp}.csv")
                 os.rename(DICT_PATH, backup_path)
 
             df.to_csv(DICT_PATH, index=False)
@@ -64,9 +60,7 @@ if os.path.exists(DICT_PATH):
 
     # Search/filter
     search_term = st.text_input("🔍 Search categories").lower()
-    filtered_df = (
-        df[df["b5t"].str.lower().str.contains(search_term)] if search_term else df
-    )
+    filtered_df = df[df['b5t'].str.lower().str.contains(search_term)] if search_term else df
 
     # Add new row
     if st.button("➕ Add Empty Row"):
@@ -75,13 +69,16 @@ if os.path.exists(DICT_PATH):
 
     # Show editable table
     edited_df = st.data_editor(
-        filtered_df, num_rows="dynamic", use_container_width=True, key="dict_editor"
+        filtered_df,
+        num_rows="dynamic",
+        use_container_width=True,
+        key="dict_editor"
     )
 
     # Basic validation
-    if edited_df["b5t"].isnull().any() or edited_df["keywords"].isnull().any():
+    if edited_df['b5t'].isnull().any() or edited_df['keywords'].isnull().any():
         st.warning("⚠️ Some rows have empty values.")
-    elif edited_df["b5t"].duplicated().any():
+    elif edited_df['b5t'].duplicated().any():
         st.warning("⚠️ Duplicate b5t entries found.")
 
     # Save changes
@@ -93,18 +90,13 @@ if os.path.exists(DICT_PATH):
 
     # Download
     with col2:
-        csv_data = edited_df.to_csv(index=False).encode("utf-8")
-        st.download_button(
-            "📥 Download as CSV",
-            data=csv_data,
-            file_name="dictionary.csv",
-            mime="text/csv",
-        )
+        csv_data = edited_df.to_csv(index=False).encode('utf-8')
+        st.download_button("📥 Download as CSV", data=csv_data, file_name="dictionary.csv", mime="text/csv")
 
     # Stats
     st.markdown("---")
     st.metric("Total Entries", len(edited_df))
-    st.metric("Unique Categories", edited_df["b5t"].nunique())
+    st.metric("Unique Categories", edited_df['b5t'].nunique())
 else:
     st.warning("⚠️ No dictionary uploaded yet.")
 
