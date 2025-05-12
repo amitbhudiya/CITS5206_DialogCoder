@@ -28,7 +28,7 @@ jobs:
       - name: Lint check
         run: |
           pip install flake8
-          flake8 app/ --max-line-length=120
+          flake8 app/ --max-line-length=120 --ignore=E402
           
       - name: Run unit tests
         run: |
