@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-
+from app import settings
 import pandas as pd
 import streamlit as st
 from components.footer import show_footer
@@ -15,11 +15,11 @@ show_sidebar()
 st.title("📚 Manage Coding Dictionary")
 
 # Setup dictionary saving
-UPLOAD_FOLDER = "uploaded_dictionaries"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-DICT_PATH = os.path.join(UPLOAD_FOLDER, "dictionary.csv")
-REQUIRED_COLUMNS = {"b5t", "keywords"}
 
+os.makedirs(settings.UPLOAD_FOLDER, exist_ok=True)
+settings.UPLOAD_FOLDER
+settings.DICT_PATH
+settings.REQUIRED_COLUMNS
 # Upload section
 uploaded_file = st.file_uploader("🔼 Upload a new dictionary CSV", type="csv")
 
