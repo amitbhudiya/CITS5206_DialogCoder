@@ -1,19 +1,18 @@
 import streamlit as st
-
-st.set_page_config(page_title="Upload Transcripts", layout="wide")
-
 import os
 import sys
 import tempfile
-
 import pandas as pd
 from components.footer import show_footer
 from components.sidebar import show_sidebar
+from file_processor import process_multi_files, process_single_file
+
+st.set_page_config(page_title="Upload Transcripts", layout="wide")
 
 show_sidebar()
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
-from file_processor import process_multi_files, process_single_file
+
 
 for key in [
     "uploaded_files",
