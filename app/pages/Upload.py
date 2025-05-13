@@ -102,7 +102,8 @@ if uploaded_files:
                 label=f"⬇️ Download processed result: processed_{file.name}",
                 data=f.read(),
                 file_name=f"processed_{file.name}",
-                mime="text/csv"
+                mime="text/csv",
+                key=f"download_processed_{idx}_{file.name}"
             )
 
         try:
@@ -134,7 +135,8 @@ if uploaded_files:
                             f"⬇️ Download B5T_frequency_{file_name}",
                             csv,
                             file_name=f"B5T_frequency_{file_name}",
-                            mime="text/csv"
+                            mime="text/csv",
+                            key=f"download_frequency_{idx}_{file_name}"
                         )
                         st.dataframe(freq_df, use_container_width=True)
                     else:
@@ -156,7 +158,8 @@ if uploaded_files:
                         "⬇️ Download Combined_B5T_frequency.csv",
                         csv,
                         file_name="Combined_B5T_frequency.csv",
-                        mime="text/csv"
+                        mime="text/csv",
+                        key="download_combined_frequency"
                     )
                     st.dataframe(freq_df, use_container_width=True)
                 else:
@@ -189,7 +192,8 @@ elif st.session_state['uploaded_files']:
                         f"⬇️ Download B5T_frequency_{fname}",
                         csv,
                         file_name=f"B5T_frequency_{fname}",
-                        mime="text/csv"
+                        mime="text/csv",
+                        key=f"download_frequency_cached_{i}_{fname}"
                     )
                     st.dataframe(freq_df, use_container_width=True)
                 else:
@@ -211,7 +215,8 @@ elif st.session_state['uploaded_files']:
                     "⬇️ Download Combined_B5T_frequency.csv",
                     csv,
                     file_name="Combined_B5T_frequency.csv",
-                    mime="text/csv"
+                    mime="text/csv",
+                    key="download_combined_frequency_cached"
                 )
                 st.dataframe(freq_df, use_container_width=True)
             else:
