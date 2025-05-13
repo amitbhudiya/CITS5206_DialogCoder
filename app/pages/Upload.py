@@ -27,8 +27,7 @@ st.markdown(
     ":sparkles: Upload your transcript CSV files here for automatic coding and analysis. :sparkles:"
 )
 st.divider()
-
-REPORT_FOLDER = "uploaded_reports"
+REPORT_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), '../uploaded_reports'))
 os.makedirs(REPORT_FOLDER, exist_ok=True)
 
 with st.expander("📋 View file format requirements"):
