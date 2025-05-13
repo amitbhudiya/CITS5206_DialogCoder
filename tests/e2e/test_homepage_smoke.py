@@ -1,4 +1,4 @@
-# tests/e2e/test_dictionary.py
+# tests/e2e/test_dictionary_page_loads.py
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -9,12 +9,16 @@ def driver():
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
-    driver = webdriver.Chrome(options=options)
-    yield driver
-    driver.quit()
+    return webdriver.Chrome(options=options)
 
 def test_dictionary_page_loads(run_app, driver):
-    url = f"{run_app.rstrip('/')}/Dictionary"
+    # Streamlit multipage apps use ?page=<Name> to select pages
+    url = run_app.rstrip("/") + "/?page=Dictionary"
     driver.get(url)
-    header = driver.find_element(By.TAG_NAME, "h1")
-    assert "Manage Coding Dictionary" in header.text
+
+    # find any element that contains our page title text
+    elem = driver.find_element(
+        By.XPATH,
+        "//*[contains(text(), 'Manage Coding Dictionary')]"
+    )
+    assert elem is not None
