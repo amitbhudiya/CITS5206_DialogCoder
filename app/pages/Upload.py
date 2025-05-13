@@ -27,8 +27,7 @@ st.markdown(
     ":sparkles: Upload your transcript CSV files here for automatic coding and analysis. :sparkles:"
 )
 st.divider()
-
-REPORT_FOLDER = "uploaded_reports"
+REPORT_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), '../uploaded_reports'))
 os.makedirs(REPORT_FOLDER, exist_ok=True)
 
 with st.expander("📋 View file format requirements"):
@@ -120,6 +119,9 @@ if uploaded_files:
                 data=f.read(),
                 file_name=f"processed_{file.name}",
                 mime="text/csv",
+
+                key=f"download_processed_{idx}_{file.name}"
+
             )
 
         try:
@@ -154,6 +156,9 @@ if uploaded_files:
                             csv,
                             file_name=f"B5T_frequency_{file_name}",
                             mime="text/csv",
+
+                            key=f"download_frequency_{idx}_{file_name}"
+
                         )
                         st.dataframe(freq_df, use_container_width=True)
                     else:
@@ -180,6 +185,9 @@ if uploaded_files:
                         csv,
                         file_name="Combined_B5T_frequency.csv",
                         mime="text/csv",
+
+                        key="download_combined_frequency"
+
                     )
                     st.dataframe(freq_df, use_container_width=True)
                 else:
@@ -215,6 +223,9 @@ elif st.session_state["uploaded_files"]:
                         csv,
                         file_name=f"B5T_frequency_{fname}",
                         mime="text/csv",
+
+                        key=f"download_frequency_cached_{i}_{fname}"
+
                     )
                     st.dataframe(freq_df, use_container_width=True)
                 else:
@@ -239,6 +250,9 @@ elif st.session_state["uploaded_files"]:
                     csv,
                     file_name="Combined_B5T_frequency.csv",
                     mime="text/csv",
+
+                    key="download_combined_frequency_cached"
+
                 )
                 st.dataframe(freq_df, use_container_width=True)
             else:
