@@ -17,3 +17,10 @@ instance/
 *.log
 *.tmp
 *.swp
+
+# Uploaded files
+app/uploaded_dictionaries/
+app/uploaded_reports/
+
+# Environment variables
+.env
