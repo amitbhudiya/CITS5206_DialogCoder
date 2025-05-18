@@ -55,7 +55,7 @@ class OpenRouterClient:
         )
 
         # Default model
-        self.model = "openrouter/llama-3-70b-instruct"
+        self.model = "meta-llama/llama-3.3-70b-instruct"
 
     def classify_line(self, text: str, context: Dict[str, Any]) -> Dict[str, Any]:
         """
