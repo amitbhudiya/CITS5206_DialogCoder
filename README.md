@@ -1,4 +1,4 @@
-# DialogCoder
+# DialogCoder (aka PulsarBurp)
 
 A streamlined application to automate the coding of dialogue transcripts for research teams.
 
