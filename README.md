@@ -2,81 +2,124 @@
 
 A streamlined application to automate the coding of dialogue transcripts for research teams.
 
+
 ## Table of Contents
-- [DialogCoder](#dialogcoder)
+
+<details closed>
+<summary> Click to open Table of Contents</summary
+
+- [DialogCoder (aka PulsarBurp)](#dialogcoder-aka-pulsarburp)
   - [Table of Contents](#table-of-contents)
-  - [Problem Statement](#problem-statement)
-    - [Overview](#overview)
-    - [The Current Challenge](#the-current-challenge)
-    - [Why This Solution](#why-this-solution)
-  - [Key Features](#key-features)
+  - [Project Overview](#project-overview)
+  - [Project Scope](#project-scope)
+  - [Features](#features)
   - [Tech Stack](#tech-stack)
-  - [Getting Started](#getting-started)
+- [Plan A - Keyword Matching (MVP)](#plan-a---keyword-matching-mvp)
+  - [Getting Started with Plan A - MVP](#getting-started-with-plan-a---mvp)
     - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-  - [Plan B (LLM-assisted pipeline)](#plan-b-llm-assisted-pipeline)
-    - [Running the App](#running-the-app)
-  - [Plan B Demo UI (LLM-assisted)](#plan-b-demo-ui-llm-assisted)
-  - [Testing](#testing)
-    - [Running Tests](#running-tests)
-- [Plan B tests (27 fast unit tests)](#plan-b-tests-27-fast-unit-tests)
-    - [Test Types](#test-types)
+    - [Installation / Setup](#installation--setup)
+    - [Running the Streamlit App](#running-the-streamlit-app)
+    - [In-App Guidance](#in-app-guidance)
+    - [Using the Application (GUI)](#using-the-application-gui)
+      - [1. Upload Your Coding Dictionary:](#1-upload-your-coding-dictionary)
+      - [2. Upload Your Transcript Files:](#2-upload-your-transcript-files)
+      - [3. Processing:](#3-processing)
+      - [4. Frequency Table Reports (optional):](#4-frequency-table-reports-optional)
+    - [Testing](#testing)
+- [Plan B - LLM-assisted pipeline (POC)](#plan-b---llm-assisted-pipeline-poc)
+  - [Getting Started with Plan B - LLM POC](#getting-started-with-plan-b---llm-poc)
+    - [Installation / Setup](#installation--setup-1)
+    - [Running the Streamlit App](#running-the-streamlit-app-1)
+  - [Using the Application (GUI)](#using-the-application-gui-1)
+      - [1. Upload Your Files:](#1-upload-your-files)
+      - [2. Configure Confidence Settings:](#2-configure-confidence-settings)
+      - [3. Run the Classification:](#3-run-the-classification)
+      - [4. Review and Save Results:](#4-review-and-save-results)
+    - [Testing](#testing-1)
+  - [Additional Testing](#additional-testing)
   - [Project Structure](#project-structure)
   - [CI/CD](#cicd)
 
-## Problem Statement
+</details>
 
-### Overview
+## Project Overview
 
-Researchers analyzing submarine simulator team exercises face a labor-intensive challenge. Each one-hour voice recording is transcribed into a CSV file containing 400–500 dialogue rows, which must be manually coded by two independent raters. This manual process is slow, prone to error, and not scalable as the volume of data increases.
+**DialogCoder** (aka *PulsarBurp*) is a streamlined offline application designed to automate the qualitative coding of dialogue transcripts, particularly in research settings involving high-volume team interactions such as submarine simulator exercises. The tool eliminates repetitive manual work by tagging transcript rows based on a user-defined dictionary — or optionally, using LLM-enhanced classification.
 
-### The Current Challenge
+This project includes two distinct pipelines:
 
-- **Time-Intensive Process:** Manually coding extensive transcripts takes hours per file.
-- **Human Error and Inconsistency:** Repetitive tasks lead to potential mistakes and varying interpretations.
-- **Scalability Issues:** As data volume grows, the manual method becomes increasingly unmanageable.
-- **Coder Fatigue:** Monotonous work increases the likelihood of oversight and reduces overall accuracy.
+- **Plan A (MVP):** A production-ready pipeline that uses rule-based keyword matching to code transcript data. Plan A was delivered as the **Minimum Viable Product (MVP)** and is fully functional for secure, offline use.
+- **Plan B (POC):** A **proof-of-concept** pipeline that integrates Large Language Model (LLM) predictions via OpenRouter to enhance classification accuracy. Plan B is experimental and not part of the MVP.
 
-### Why This Solution
+## Project Scope
 
-The application transforms a repetitive, error-prone manual process into an efficient, automated workflow. By leveraging a user-defined dictionary of keywords and phrases, the software will:
+This project includes:
 
-- **Reduce Processing Time:** Automate coding to turn hours of work into minutes.
-- **Ensure Consistency:** Apply a predefined qualitative coding frame uniformly across all transcripts.
-- **Support Scalability:** Handle bulk uploads of transcripts, making it feasible to process large datasets.
-- **Enhance Data Security:** Operate entirely offline to ensure sensitive information remains secure.
-- **Improve Resource Allocation:** Allow researchers to focus on higher-value analysis rather than manual coding tasks.
+- Development of a user-friendly multi-page Streamlit web interface for Plan A.
+- Implementation of a standalone demo UI for Plan B (LLM-enhanced).
+- Support for automated coding of transcript CSV files using a predefined dictionary.
+- Capability to process multiple files in batch.
+- Generation of frequency reports summarizing code usage.
+- Complete offline operation (Plan A) to safeguard sensitive data.
+- CI/CD workflows for both pipelines using GitHub Actions.
+- A comprehensive test suite including unit and end-to-end tests.
 
-## Key Features
+> ✅ **Note:** Only **Plan A** is part of the MVP and intended for production use. **Plan B** is a standalone **proof-of-concept** to explore LLM integration in this context.
 
-1. **Automated Transcript Coding:**
-   - Process CSV transcripts by mapping each dialogue row to a communication category based on a user-defined keyword dictionary.
-   - Append a new column to each CSV file with the assigned code.
+## Features
 
-2. **Bulk Data Processing:**
-   - Enable simultaneous processing of multiple CSV files to efficiently handle large volumes of data.
+- 🔍 **Automated Transcript Coding (Plan A)**  
+  Apply a user-defined keyword dictionary to assign communication codes to dialogue rows in CSV transcript files.
 
-3. **Frequency Summary Report:**
-   - Generate summary reports that provide frequency counts for each communication code across the dataset.
+- 📂 **Bulk File Processing**  
+  Upload and process multiple transcripts simultaneously, dramatically reducing manual workload.
 
-4. **Offline Operation:**
-   - Ensure the application functions entirely offline, keeping all sensitive data secure and eliminating dependency on external services.
+- 📊 **Frequency Summary Report**  
+  Automatically generate summaries showing how often each communication code appears across transcripts.
+
+- 🧱 **Modular Architecture**  
+  Clean separation between keyword matching, UI logic, LLM dispatching, and persistence.
+
+- 🔐 **Offline Operation (Plan A)**  
+  Designed for secure environments — no internet connection is required to use the core MVP.
+
+- 🧪 **Robust Testing**  
+  Unit tests, end-to-end tests, and isolated test suites for Plan A and Plan B pipelines.
+
+- 🔄 **Continuous Integration**  
+  GitHub Actions automate testing, linting, and CI checks for both pipelines with separate workflows.
+
+- 🧠 **LLM-Augmented Classification (Plan B, optional)**  
+  Use OpenRouter to classify dialogue lines when keyword matches are insufficient or ambiguous *(experimental)*.
+
 
 ## Tech Stack
 
-- **Frontend & Backend:** Streamlit
-- **Data Processing:** Python, Pandas
-- **Testing:** Pytest, Selenium
-- **CI/CD:** GitHub Actions
+**Frontend & Backend:** ![Streamlit](https://img.shields.io/badge/Streamlit-v1.28.0+-orange)
+**Data Processing:** ![Python](https://img.shields.io/badge/Python-v3.11+-blue), ![Pandas](https://img.shields.io/badge/Pandas-v2.1.0+-blue)
+**Testing:** ![Pytest](https://img.shields.io/badge/Pytest-v7.4.0+-blue), ![Selenium](https://img.shields.io/badge/Selenium-v4.11.0+-blue)
+**CI/CD:** ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-blue)
+**LLM Integration:** ![OpenRouter](https://img.shields.io/badge/OpenRouter-LLM_API-green)
 
-## Getting Started
+
+
+---
+
+# Plan A - Keyword Matching (MVP)
+
+## Getting Started with Plan A - MVP
+
+Plan A is the **original, production-ready implementation** that uses a classic keyword matching approach to automate dialogue transcript coding. It provides a streamlined multi-page interface built with Streamlit and includes core components for transcript processing, coding dictionary management, and report generation, all contained within the `app/` directory.
+
+<details closed>
+<summary> Click to open the Plan A section</summary>
 
 ### Prerequisites
 
 - Python 3.11 or higher
 - pip (Python package installer)
 
-### Installation
+### Installation / Setup
 
 1. Clone the repository:
    ```bash
@@ -89,69 +132,147 @@ The application transforms a repetitive, error-prone manual process into an effi
    pip install -r requirements.txt
    ```
 
-## Plan B (LLM-assisted pipeline)
-
-Plan B is an experimental, self-contained pipeline that augments the classic
-keyword matcher with an LLM (via **OpenRouter**) and a small set of additional
-components written under `planb/`.
-
-1. **Install Plan B requirements**
-
-   ```bash
-   pip install -r planb/requirements-planb.txt
-   ```
-
-2. **Create a `.env` file** in the repo root with your API key (and optional
-   threshold override):
-
-   ```env
-   OPENROUTER_API_KEY="sk-..."
-   CONFIDENCE_THRESHOLD=0.50  # default is 0.50 if omitted
-   ```
-
-3. **Run the demo UI** (separate from the classic Streamlit multipage app):
-
-   ```bash
-   streamlit run planb/ui/app.py
-   ```
-
-4. **Run Plan B tests** (27 fast unit tests):
-
-   ```bash
-   pytest -q tests/planb
-   ```
-
-The Plan B workflow is isolated from Plan A: it has its own dependencies, test
-suite and GitHub Action (`.github/workflows/planb-ci.yml`).
-
-### Running the App
+### Running the Streamlit App
 
 Start the Streamlit application:
 
 ```bash
 streamlit run app/Home.py   # ← classic Plan A UI
 ```
-## Plan B Demo UI (LLM-assisted)
+Open a web browser and navigate to the URL provided by Streamlit (usually http://localhost:8501).
 
-```bash
-streamlit run planb/ui/app.py        # ← experimental Plan B interface
-```
 
-The application will be available at http://localhost:8501 in your web browser.
+### In-App Guidance
 
-## Testing
+**Each page of the application includes built-in instructions that clearly explain how to use its specific features**. These contextual guides walk you through uploading transcripts, selecting dictionaries, generating reports, and more—ensuring a smooth user experience without needing to refer back to external documentation. *For a specific workflow, please take a look at the next section: Using the Application (GUI)*
 
-### Running Tests
 
-Run unit tests:
+### Using the Application (GUI)
+
+Here’s a how to use the app through the graphical interface, step by step of a typical workflow:
+
+#### 1. Upload Your Coding Dictionary:
+- Navigate to the Dictionary page from the sidebar
+- Make sure your file meets for the formatting requirements specified on the page
+- Upload your dictionary CSV file
+- Modify if needed and then hit `save`
+
+#### 2. Upload Your Transcript Files:
+- Navigate to the Upload page from the sidebar
+- Make sure your file meets for the formatting requirements specified on the page
+- Upload your files
+
+#### 3. Processing:
+- Files will automatically begin to be processed as and when they are uploaded
+- Preview of the results of the files will appear on the screen
+- Summary statistics will be calculated concurrently
+- You will be able to download each processed transcript individually
+
+#### 4. Frequency Table Reports (optional):
+- Navigate to the Reports page
+- View the summary statistics for each uploaded CSV
+- Download a frequency table of the codes aggregated over all uploads
+  
+
+### Testing
+
+To verify the core functionality of the application, you can run unit tests. 
+These tests validate individual components to ensure correctness and reliability.
+
+**Run unit tests:**
 ```bash
 pytest tests/unit/ -v
 ```
+</details>
 
-# Plan B tests (27 fast unit tests)
-```bash
-pytest -q tests/planb
-```
+---
+
+# Plan B - LLM-assisted pipeline (POC)
+
+## Getting Started with Plan B - LLM POC
+
+Plan B is an experimental, self-contained pipeline that augments the classic
+keyword matcher with an LLM (via **OpenRouter**) and a small set of additional
+components written under `planb/`.
+
+>⚠️ Note: Plan B is a proof of concept and not part of the production-ready MVP. It is provided as an experimental extension for further exploration.
+
+<details closed>
+<summary> Click to open the Plan B section</summary>
+
+
+### Installation / Setup
+
+1. **Install Plan B specfic requirements**
+
+   ```bash
+   pip install -r planb/requirements-planb.txt
+   ```
+
+2. **Create a `.env` file** in the repo root with your API key (and optional threshold override):
+
+   ```env
+   OPENROUTER_API_KEY="sk-..."
+   CONFIDENCE_THRESHOLD=0.50  # default is 0.50 if omitted
+   ```
+
+### Running the Streamlit App
+
+Start the Streamlit application:
+
+ ```bash
+   streamlit run planb/ui/app.py #Plan B - UI
+   ```
+Open a web browser and navigate to the URL provided by Streamlit (usually http://localhost:8501).
+
+
+## Using the Application (GUI)
+
+Following is the instrcutions on how to navigate and use the program using the Graphical User Interface:
+
+#### 1. Upload Your Files:
+- Click "Upload transcript CSV or Excel file" on the left side
+- Click "Upload dictionary CSV or Excel file" on the right side
+- Success messages will confirm when files are loaded
+
+#### 2. Configure Confidence Settings: 
+- Use the "Confidence Threshold" slider to adjust how strict the matching should be:
+   - Higher values (closer to 1.0): Only high-confidence matches
+   - Lower values (closer to 0.0): More inclusive matching
+   - Default (0.5): Balanced approach
+
+#### 3. Run the Classification:
+- Click the blue "Run Classification" button
+- Wait while the system processes your files
+
+#### 4. Review and Save Results:
+
+- Review the color-coded results:
+  - Green: High confidence matches (0.8+)
+  - Yellow: Medium confidence matches (0.5-0.8)
+  - Red: Low confidence matches (below 0.5)
+  
+- Click "Download Results CSV" to save the classified data
+
+### Testing
+
+The Plan B pipeline includes its own isolated test suite to ensure modular integrity and correct LLM-assisted behavior. These tests are lightweight and run quickly, making them ideal for rapid development and experimentation.
+
+
+ **Run Plan B tests**:
+
+   ```bash
+   pytest -q tests/planb
+   ```
+
+</details>
+
+---
+
+
+## Additional Testing
+
+To run additional tests across the broader app, you can also execute the end-to-end test suite and generate coverage reports.
 
 Run end-to-end tests:
 ```bash
@@ -162,11 +283,7 @@ Run all tests with coverage:
 ```bash
 pytest tests/ --cov=app -v
 ```
-
-### Test Types
-
-- **Unit Tests:** Fast tests that validate individual functions and components
-- **End-to-End Tests:** Browser-based tests that validate the complete application workflow
+---
 
 ## Project Structure
 
@@ -194,14 +311,16 @@ CITS5206_DialogCoder/
     ├── workflows/ci.yml        # Plan A checks
     └── workflows/planb-ci.yml  # Plan B checks
 ```
+---
 
 ## CI/CD
 
 This project uses GitHub Actions for continuous integration. Two workflows now
 run in parallel:
 
-1. **ci.yml** – legacy Plan A lint / unit / e2e tests
+1. **ci.yml** –  Plan A lint / unit / e2e tests
 2. **planb-ci.yml** – lightweight Plan B pytest run (`tests/planb`)
+
 
 Each workflow is triggered only when files relevant to that plan are modified.
 
@@ -211,3 +330,5 @@ The CI steps:
 - Executes unit tests
 - Performs end-to-end testing
 - Verifies Streamlit startup 
+
+---
