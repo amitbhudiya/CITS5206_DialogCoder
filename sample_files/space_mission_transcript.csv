@@ -1,0 +1,110 @@
+timestamp,speaker,text
+0:00:00,Mission Control,Apollo Seven this is Houston we have you on comms
+0:00:05,Commander,Houston this is Apollo Seven loud and clear
+0:00:10,Flight Engineer,All systems showing green across the board
+0:00:15,Pilot,Navigation computer is locked onto target coordinates
+0:00:20,Mission Control,Copy that Apollo Seven you are go for orbit insertion
+0:00:25,Commander,Roger Houston beginning final approach sequence now
+0:00:30,Flight Engineer,Engine temperature nominal oxygen levels stable
+0:00:35,Pilot,Fuel consumption within expected parameters so far
+0:00:40,Mission Control,Apollo Seven your trajectory looks perfect from here
+0:00:45,Commander,We have visual confirmation of the space station
+0:00:50,Flight Engineer,Docking clamps are deployed and ready for contact
+0:00:55,Pilot,Range to target is now five hundred meters
+0:01:00,Mission Control,You are cleared for final docking approach
+0:01:05,Commander,Apollo Seven proceeding with docking maneuver
+0:01:10,Flight Engineer,All docking systems are functioning normally
+0:01:15,Pilot,Range now two hundred meters and closing steadily
+0:01:20,Mission Control,Looking good from our perspective down here
+0:01:25,Commander,Contact confirmed we have successful docking
+0:01:30,Flight Engineer,All seals are secure and pressure is equalizing
+0:01:35,Pilot,Excellent work team that was a textbook approach
+0:01:40,Mission Control,Congratulations Apollo Seven outstanding job
+0:01:45,Commander,Houston we are ready to begin our scheduled EVA
+0:01:50,Flight Engineer,Space suits have been checked and double checked
+0:01:55,Pilot,Life support systems are all green across the board
+0:02:00,Mission Control,You are go for extravehicular activity
+0:02:05,Commander,Copy Houston beginning EVA preparation protocols
+0:02:10,Flight Engineer,Suit pressure is nominal oxygen flow confirmed
+0:02:15,Pilot,Helmet cameras are active and transmitting clearly
+0:02:20,Mission Control,We can see everything perfectly from mission control
+0:02:25,Commander,Opening the airlock hatch now preparing to exit
+0:02:30,Flight Engineer,Tether lines are secure and backup systems ready
+0:02:35,Pilot,Radio check can you hear me clearly outside
+0:02:40,Mission Control,Loud and clear commander your signal is strong
+0:02:45,Commander,The view of Earth from here is absolutely breathtaking
+0:02:50,Flight Engineer,I can see the solar panels need realignment work
+0:02:55,Pilot,Tools are ready and the repair kit is accessible
+0:03:00,Mission Control,Take your time and follow all safety procedures
+0:03:05,Commander,Roger that safety is our number one priority always
+0:03:10,Flight Engineer,Beginning work on the damaged solar array now
+0:03:15,Pilot,Wrench is secure and torque specifications are confirmed
+0:03:20,Mission Control,Your progress looks excellent from our monitors
+0:03:25,Commander,Panel alignment is complete moving to next section
+0:03:30,Flight Engineer,All connections are tight and properly seated
+0:03:35,Pilot,Power levels are increasing as expected with repairs
+0:03:40,Mission Control,Outstanding work the station is back to full power
+0:03:45,Commander,Mission accomplished preparing to return to spacecraft
+0:03:50,Flight Engineer,EVA tools are secured and accounted for
+0:03:55,Pilot,Returning to airlock all safety checks completed
+0:04:00,Mission Control,Welcome back excellent EVA mission today
+0:04:05,Commander,Houston requesting permission to begin sample collection
+0:04:10,Flight Engineer,Laboratory equipment is calibrated and ready
+0:04:15,Pilot,Specimen containers are labeled and properly sealed
+0:04:20,Mission Control,You are authorized to proceed with collection
+0:04:25,Commander,Copy Houston beginning scientific sample gathering
+0:04:30,Flight Engineer,Microscope is focused and imaging systems active
+0:04:35,Pilot,Data recording devices are functioning perfectly
+0:04:40,Mission Control,Science team is monitoring your results closely
+0:04:45,Commander,Sample Alpha shows interesting crystalline structures
+0:04:50,Flight Engineer,Temperature readings are within expected normal range
+0:04:55,Pilot,Chemical analysis indicates high mineral content present
+0:05:00,Mission Control,Fascinating results please continue your analysis
+0:05:05,Commander,Sample Beta exhibits unusual electromagnetic properties
+0:05:10,Flight Engineer,Radiation levels are safe for extended exposure
+0:05:15,Pilot,Spectral analysis reveals unknown elemental signatures
+0:05:20,Mission Control,This could be a significant scientific breakthrough
+0:05:25,Commander,All samples are properly stored for return journey
+0:05:30,Flight Engineer,Laboratory shutdown sequence is now complete
+0:05:35,Pilot,Data has been transmitted to Houston for verification
+0:05:40,Mission Control,Received and confirmed excellent scientific work
+0:05:45,Commander,Houston we are ready for departure preparations
+0:05:50,Flight Engineer,All systems checked and ready for undocking
+0:05:55,Pilot,Navigation computer has calculated optimal return trajectory
+0:06:00,Mission Control,You are cleared for undocking when ready
+0:06:05,Commander,Roger Houston initiating undocking sequence now
+0:06:10,Flight Engineer,Docking clamps released we are free floating
+0:06:15,Pilot,Thrusters firing for safe separation distance
+0:06:20,Mission Control,Separation confirmed you are clear of station
+0:06:25,Commander,Beginning powered flight toward Earth atmosphere
+0:06:30,Flight Engineer,Engine burn duration calculated for proper trajectory
+0:06:35,Pilot,Guidance system locked onto reentry coordinates
+0:06:40,Mission Control,Your approach vector looks perfect from here
+0:06:45,Commander,Houston we are beginning atmospheric entry now
+0:06:50,Flight Engineer,Heat shield temperatures rising as expected
+0:06:55,Pilot,Communication blackout expected in thirty seconds
+0:07:00,Mission Control,Copy Apollo Seven see you on the other side
+0:07:05,Commander,Communications restored we made it through reentry
+0:07:10,Flight Engineer,Parachute deployment systems are all green
+0:07:15,Pilot,Altitude decreasing rapidly preparing for chute deployment
+0:07:20,Mission Control,We have you on radar descending normally
+0:07:25,Commander,Main parachutes deployed descent rate is nominal
+0:07:30,Flight Engineer,All landing systems are functioning perfectly
+0:07:35,Pilot,Splashdown coordinates confirmed recovery ships standing by
+0:07:40,Mission Control,Recovery team is en route to your position
+0:07:45,Commander,Splashdown successful all crew members are safe
+0:07:50,Flight Engineer,Spacecraft is floating normally post landing checks complete
+0:07:55,Pilot,Recovery divers are in the water approaching now
+0:08:00,Mission Control,Outstanding mission Apollo Seven welcome home
+0:08:05,Commander,Thank you Houston it was an honor to serve
+0:08:10,Flight Engineer,Science data will advance our understanding significantly
+0:08:15,Pilot,The repairs will keep the station operational for years
+0:08:20,Mission Control,Mission accomplished with complete success
+0:08:25,Commander,Looking forward to our next adventure in space
+0:08:30,Flight Engineer,The future of space exploration looks very bright
+0:08:35,Pilot,Humanity's reach continues to extend beyond Earth
+0:08:40,Mission Control,Apollo Seven mission complete welcome back to Earth
+0:08:45,Commander,It's good to be home after our successful mission
+0:08:50,Flight Engineer,The data we collected will benefit all mankind
+0:08:55,Pilot,Space continues to reveal its mysteries to us
+0:09:00,All Crew,Mission Control thank you for bringing us home safely
