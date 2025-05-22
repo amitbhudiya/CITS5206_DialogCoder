@@ -145,6 +145,9 @@ streamlit run planb/ui/app.py        # ← experimental Plan B interface
 ```
 
 The application will be available at http://localhost:8501 in your web browser.
+## Sample Data
+There are some sample dictionary and transcript in `sample_files` directory.You can load and test it.
+
 
 ## Testing
 
