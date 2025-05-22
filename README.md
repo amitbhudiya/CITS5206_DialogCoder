@@ -83,14 +83,15 @@ This project includes:
 - 🔐 **Offline Operation (Plan A)**  
   Designed for secure environments — no internet connection is required to use the core MVP.
 
+  - 🧠 **LLM-Augmented Classification (Plan B, optional)**  
+  Use OpenRouter to classify dialogue lines when keyword matches are insufficient or ambiguous *(experimental)*.
+
 - 🧪 **Robust Testing**  
   Unit tests, end-to-end tests, and isolated test suites for Plan A and Plan B pipelines.
 
 - 🔄 **Continuous Integration**  
   GitHub Actions automate testing, linting, and CI checks for both pipelines with separate workflows.
 
-- 🧠 **LLM-Augmented Classification (Plan B, optional)**  
-  Use OpenRouter to classify dialogue lines when keyword matches are insufficient or ambiguous *(experimental)*.
 
 
 ## Tech Stack
@@ -149,7 +150,7 @@ Open a web browser and navigate to the URL provided by Streamlit (usually http:/
 
 ### Using the Application (GUI)
 
-Here’s a how to use the app through the graphical interface, step by step of a typical workflow:
+Here's how to use the app through the graphical interface, step by step of a typical workflow:
 
 #### 1. Upload Your Coding Dictionary:
 - Navigate to the Dictionary page from the sidebar
@@ -183,6 +184,21 @@ These tests validate individual components to ensure correctness and reliability
 ```bash
 pytest tests/unit/ -v
 ```
+
+<details>
+<summary>Click to view detailed functional testing documentation</summary>
+
+<br>
+A comprehensive functional testing document for Plan A is available in `functional_testing_planA.md`. This document covers:
+
+- Test environment specifications
+- 9 detailed test cases covering core functionality
+- Test results and pass/fail criteria
+- Known limitations and observations
+- Testing conclusions and deployment readiness
+
+The functional testing confirms that Plan A successfully implements all core features including file uploads, keyword matching, and report generation, with appropriate error handling and user feedback.
+</details>
 </details>
 
 ---
