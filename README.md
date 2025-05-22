@@ -101,7 +101,10 @@ components written under `planb/`.
    pip install -r planb/requirements-planb.txt
    ```
 
-2. **Create a `.env` file** in the repo root with your API key (and optional
+2. Create a API key in open router
+   https://openrouter.ai/
+
+3. **Create a `.env` file** in the repo root (eg. `planb/.env`) with your API key (and optional
    threshold override):
 
    ```env
@@ -109,16 +112,20 @@ components written under `planb/`.
    CONFIDENCE_THRESHOLD=0.50  # default is 0.50 if omitted
    ```
 
-3. **Run the demo UI** (separate from the classic Streamlit multipage app):
+4. **Run the demo UI** (separate from the classic Streamlit multipage app):
 
    ```bash
    streamlit run planb/ui/app.py
    ```
 
-4. **Run Plan B tests** (27 fast unit tests):
+5. **Run Plan B tests** (27 fast unit tests):
 
    ```bash
    pytest -q tests/planb
+   ```
+6. **Updating LLM model** change `self.model` in file `planb/pipeline/llm_adapter.py` to your model's API from openrouter.
+   ```bash
+   self.model = "meta-llama/llama-3.3-70b-instruct"
    ```
 
 The Plan B workflow is isolated from Plan A: it has its own dependencies, test
@@ -210,4 +217,4 @@ The CI steps:
 - Runs linting checks
 - Executes unit tests
 - Performs end-to-end testing
-- Verifies Streamlit startup 
+- Verifies Streamlit startup
