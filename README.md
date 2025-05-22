@@ -37,8 +37,8 @@ A streamlined application to automate the coding of dialogue transcripts for res
       - [4. Review and Save Results:](#4-review-and-save-results)
     - [Testing](#testing-1)
   - [Additional Testing](#additional-testing)
-  - [Project Structure](#project-structure)
   - [CI/CD](#cicd)
+  - [Project Structure](#project-structure)
 
 </details>
 
@@ -285,6 +285,26 @@ pytest tests/ --cov=app -v
 ```
 ---
 
+## CI/CD
+
+This project uses GitHub Actions for continuous integration. Two workflows now
+run in parallel:
+
+1. **ci.yml** –  Plan A lint / unit / e2e tests
+2. **planb-ci.yml** – lightweight Plan B pytest run (`tests/planb`)
+
+
+Each workflow is triggered only when files relevant to that plan are modified.
+
+The CI steps:
+- Builds the application
+- Runs linting checks
+- Executes unit tests
+- Performs end-to-end testing
+- Verifies Streamlit startup 
+
+---
+
 ## Project Structure
 
 ```
@@ -313,22 +333,3 @@ CITS5206_DialogCoder/
 ```
 ---
 
-## CI/CD
-
-This project uses GitHub Actions for continuous integration. Two workflows now
-run in parallel:
-
-1. **ci.yml** –  Plan A lint / unit / e2e tests
-2. **planb-ci.yml** – lightweight Plan B pytest run (`tests/planb`)
-
-
-Each workflow is triggered only when files relevant to that plan are modified.
-
-The CI steps:
-- Builds the application
-- Runs linting checks
-- Executes unit tests
-- Performs end-to-end testing
-- Verifies Streamlit startup 
-
----
