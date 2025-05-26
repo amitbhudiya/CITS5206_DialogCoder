@@ -41,7 +41,15 @@ def process_single_file(input_file: str, output_file: str):
 
     # Load user-defined dictionary csv file
     file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../app/uploaded_dictionaries/dictionary.csv'))
-    b5t_dict = load_dictionaries(file_path)
+    try:
+        b5t_dict = load_dictionaries(file_path)
+    except FileNotFoundError:
+        logging.error(f"Dictionary file not found at {file_path}")
+        raise FileNotFoundError("Dictionary file not found")
+    except Exception as e:
+        logging.error(f"Error loading dictionary: {str(e)}")
+        raise Exception(f"Error loading dictionary: {str(e)}")
+
 
     results = []
     for text in df[text_col]:
