@@ -5,8 +5,28 @@ import tempfile
 import pandas as pd
 from components.footer import show_footer
 from components.sidebar import show_sidebar
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
-from file_processor import process_multi_files, process_single_file
+
+# Add multiple possible paths
+possible_paths = [
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")),
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")),
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")),
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")),
+    os.path.abspath(os.path.dirname(__file__)),
+]
+
+for path in possible_paths:
+    if path not in sys.path:
+        sys.path.append(path)
+
+try:
+    from file_processor import process_multi_files, process_single_file
+except ImportError:
+    try:
+        from src.file_processor import process_multi_files, process_single_file
+    except ImportError:
+        st.error("Failed to import file_processor module. Please ensure the file exists and the path is correct.")
+        st.stop()
 
 
 st.set_page_config(page_title="Upload Transcripts", layout="wide")

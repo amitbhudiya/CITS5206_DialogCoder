@@ -6,7 +6,7 @@ A streamlined application to automate the coding of dialogue transcripts for res
 ## Table of Contents
 
 <details closed>
-<summary> Click to open Table of Contents</summary
+<summary> Click to open Table of Contents</summary>
 
 - [DialogCoder (aka PulsarBurp)](#dialogcoder-aka-pulsarburp)
   - [Table of Contents](#table-of-contents)
@@ -18,23 +18,23 @@ A streamlined application to automate the coding of dialogue transcripts for res
   - [Getting Started with Plan A - MVP](#getting-started-with-plan-a---mvp)
     - [Prerequisites](#prerequisites)
     - [Installation / Setup](#installation--setup)
-    - [Running the Streamlit App](#running-the-streamlit-app)
+    - [Running the Application](#running-the-application)
     - [In-App Guidance](#in-app-guidance)
     - [Using the Application (GUI)](#using-the-application-gui)
-      - [1. Upload Your Coding Dictionary:](#1-upload-your-coding-dictionary)
-      - [2. Upload Your Transcript Files:](#2-upload-your-transcript-files)
-      - [3. Processing:](#3-processing)
-      - [4. Frequency Table Reports (optional):](#4-frequency-table-reports-optional)
+      - [1. Upload Your Coding Dictionary](#1-upload-your-coding-dictionary)
+      - [2. Upload Your Transcript Files](#2-upload-your-transcript-files)
+      - [3. Processing](#3-processing)
+      - [4. Frequency Table Reports (optional)](#4-frequency-table-reports-optional)
     - [Testing](#testing)
 - [Plan B - LLM-assisted pipeline (POC)](#plan-b---llm-assisted-pipeline-poc)
   - [Getting Started with Plan B - LLM POC](#getting-started-with-plan-b---llm-poc)
     - [Installation / Setup](#installation--setup-1)
     - [Running the Streamlit App](#running-the-streamlit-app-1)
   - [Using the Application (GUI)](#using-the-application-gui-1)
-      - [1. Upload Your Files:](#1-upload-your-files)
-      - [2. Configure Confidence Settings:](#2-configure-confidence-settings)
-      - [3. Run the Classification:](#3-run-the-classification)
-      - [4. Review and Save Results:](#4-review-and-save-results)
+      - [1. Upload Your Files](#1-upload-your-files)
+      - [2. Configure Confidence Settings](#2-configure-confidence-settings)
+      - [3. Run the Classification](#3-run-the-classification)
+      - [4. Review and Save Results](#4-review-and-save-results)
     - [Testing](#testing-1)
   - [Additional Testing](#additional-testing)
   - [CI/CD](#cicd)
@@ -133,15 +133,45 @@ Plan A is the **original, production-ready implementation** that uses a classic 
    pip install -r requirements.txt
    ```
 
-### Running the Streamlit App
+### Running the Application
 
-Start the Streamlit application:
+You can run the application in two ways:
+
+#### Option 1: Using the Launcher (Windows)
+We provide a launcher executable to simplify the application startup process.
+
+**File Structure:**
+Make sure you have the following file structure:
+```
+DialogCoder/
+├── DialogCoder.exe    # Application launcher
+├── app/               # Application files
+│   ├── Home.py
+│   ├── pages/
+│   └── components/
+├── src/              # Source files
+└── requirements.txt  # Dependencies list
+```
+
+**Usage:**
+1. Make sure you have installed all prerequisites (Python and dependencies)
+2. Double-click `DialogCoder.exe` to launch the application
+3. A command prompt window will open first, followed by your default web browser
+4. The application will be available at http://localhost:8501
+5. To close the application, simply close the command prompt window
+
+**Note:** 
+- The executable is just a launcher that simplifies starting the application
+- The executable must be kept in the same directory as the `app` and `src` folders
+- Do not move or delete any files in the `app` or `src` directories
+
+#### Option 2: Using Command Line
+Start the Streamlit application directly:
 
 ```bash
 streamlit run app/Home.py   # ← classic Plan A UI
 ```
 Open a web browser and navigate to the URL provided by Streamlit (usually http://localhost:8501).
-
 
 ### In-App Guidance
 
