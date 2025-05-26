@@ -27,7 +27,6 @@ def load_dictionaries(file_path):
         return b5t_dict
 
     except Exception as e:
-        print(f"Error loading file: {e}")
         return {}
 
 
