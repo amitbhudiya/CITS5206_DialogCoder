@@ -26,7 +26,9 @@ st.title("📄 Upload Transcripts")
 st.markdown(
     ":sparkles: Upload your transcript CSV files here for automatic coding and analysis. :sparkles:"
 )
-st.divider()
+DICTIONARY_PATH = os.path.join(os.path.dirname(__file__), '../uploaded_dictionaries/dictionary.csv')
+if not os.path.exists(DICTIONARY_PATH):
+    st.warning("⚠️No dictionary found. Please upload or create new dictionary before processing the transcript.")
 REPORT_FOLDER = os.path.join(os.path.dirname(__file__), '../uploaded_reports')
 os.makedirs(REPORT_FOLDER, exist_ok=True)
 
