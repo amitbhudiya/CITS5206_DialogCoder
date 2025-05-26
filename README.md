@@ -155,10 +155,11 @@ DialogCoder/
 
 **Usage:**
 1. Make sure you have installed all prerequisites (Python and dependencies)
-2. Double-click `DialogCoder.exe` to launch the application
-3. A command prompt window will open first, followed by your default web browser
-4. The application will be available at http://localhost:8501
-5. To close the application, simply close the command prompt window
+2. Put `DialogCoder.exe` in the root directory
+3. Double-click `DialogCoder.exe` to launch the application
+4. A command prompt window will open first, followed by your default web browser
+5. The application will be available at http://localhost:8501
+6. To close the application, simply close the command prompt window
 
 **Note:** 
 - The executable is just a launcher that simplifies starting the application
