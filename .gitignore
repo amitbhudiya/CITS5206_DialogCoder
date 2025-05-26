@@ -5,7 +5,6 @@ __pycache__/
 # PyInstaller build files
 build/
 dist/
-*.spec
 
 # Project specific directories
 app/uploaded_reports/

@@ -138,7 +138,26 @@ Plan A is the **original, production-ready implementation** that uses a classic 
 You can run the application in two ways:
 
 #### Option 1: Using the Launcher (Windows)
-We provide a launcher executable to simplify the application startup process.
+We provide a PyInstaller specification to generate a launcher executable that simplifies the application startup process.
+
+**Get the Launcher:**
+You have two options:
+
+1. Use the pre-compiled executable from the email attachment:
+   - Copy `DialogCoder.exe` from the email attachment to the root directory of the project
+   - Skip to the "File Structure" section below
+
+2. Generate the executable yourself:
+   - Make sure you have PyInstaller installed:
+     ```bash
+     pip install pyinstaller
+     ```
+   - Generate the executable:
+     ```bash
+     pyinstaller DialogCoder.spec
+     ```
+   - The executable will be generated in the `dist` directory
+   - Move `DialogCoder.exe` to the root directory
 
 **File Structure:**
 Make sure you have the following file structure:
@@ -379,4 +398,3 @@ CITS5206_DialogCoder/
     └── workflows/planb-ci.yml  # Plan B checks
 ```
 ---
-
