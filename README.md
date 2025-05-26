@@ -130,7 +130,7 @@ You can run the application either directly with Python or using Docker.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/CITS5206_DialogCoder.git
+   git clone https://github.com/amitbhudiya/CITS5206_DialogCoder.git
    cd CITS5206_DialogCoder
    ```
 
@@ -145,7 +145,7 @@ You can run the application either directly with Python or using Docker.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/CITS5206_DialogCoder.git
+   git clone https://github.com/amitbhudiya/CITS5206_DialogCoder.git
    cd CITS5206_DialogCoder
    ```
 
