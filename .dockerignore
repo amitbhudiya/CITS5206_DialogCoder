@@ -1,0 +1,16 @@
+.git
+.gitignore
+.github
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+*.log
+.DS_Store
+tests/
+README.md
+LICENSE

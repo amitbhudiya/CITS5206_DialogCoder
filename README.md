@@ -119,8 +119,14 @@ Plan A is the **original, production-ready implementation** that uses a classic 
 
 - Python 3.11 or higher
 - pip (Python package installer)
+OR
+- Docker (if using Docker deployment)
 
 ### Installation / Setup
+
+You can run the application either directly with Python or using Docker.
+
+#### Option 1: Direct Python Installation
 
 1. Clone the repository:
    ```bash
@@ -132,6 +138,26 @@ Plan A is the **original, production-ready implementation** that uses a classic 
    ```bash
    pip install -r requirements.txt
    ```
+
+#### Option 2: Docker Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/CITS5206_DialogCoder.git
+   cd CITS5206_DialogCoder
+   ```
+
+2. Build the Docker image:
+   ```bash
+   docker build -t dialogcoder .
+   ```
+
+3. Run the Docker container:
+   ```bash
+   docker run -p 8501:8501 dialogcoder
+   ```
+
+   The application will be available at http://localhost:8501
 
 ### Running the Streamlit App
 
